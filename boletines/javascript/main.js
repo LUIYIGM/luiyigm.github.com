@@ -21,7 +21,7 @@ links.forEach(function(link){
 
         setTimeout(function(){
             location.href = "/boletines";
-        },700)
+        },600);
 
         // setInterval  bucle ejecutar cada 1 segundo o tiempo asignado
 

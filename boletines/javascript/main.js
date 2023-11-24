@@ -20,8 +20,8 @@ links.forEach(function(link){
         content.classList.add('animate__animated');
 
         setTimeout(function(){
-            location.href = "/boletines";
-        },600);
+            location.href = "/";
+        },500);
 
         // setInterval  bucle ejecutar cada 1 segundo o tiempo asignado
 

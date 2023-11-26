@@ -1,0 +1,38 @@
+/* *{ SELECTOR UNIVERSAL
+    color:red;
+    font-size: 30px;
+} */
+
+
+
+/* p{ Selector de tipo
+    color: orange;
+    font-size: 30px;
+} */
+
+/* .titulo{
+    color:brown;
+    font-size: 30px;
+    border:1px solid black;
+}
+
+.negrita{
+    font-weight: bold;
+}
+
+#titulo{
+    color:steelblue;
+    font-size: 50px;
+} */
+
+
+ /* .abuelito .titulo{
+    color:red;
+    font-size: 40px;
+ }
+
+.abuelito> .titulo{
+    color:blue;
+} */
+
+

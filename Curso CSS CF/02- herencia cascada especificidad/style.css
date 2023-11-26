@@ -1,0 +1,19 @@
+body{
+    font-family: Arial;
+    color:tomato;
+    border: 2px solid black;
+}
+
+h1{
+    border: inherit;
+}
+
+input{
+    font-family: inherit;
+}
+
+
+
+/* 1. Selector de Tipo, PseudoElementos :: */
+/* 10 - Selector de clase, PseudoClases :,[]*/
+/* 100 - Slector de ID */

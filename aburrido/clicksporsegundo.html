@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador de Clics por Segundo</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    #container {
+        max-width: 400px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        color: #333;
+    }
+    p {
+        color: #666;
+        margin-bottom: 20px;
+    }
+    #clickButton {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    #clickButton:hover {
+        background-color: #0056b3;
+    }
+    #counter {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <h1>Contador de Clics por Segundo</h1>
+    <p>Haz clic en el botón para empezar a contar los clics por segundo:</p>
+    <button id="clickButton">Haz clic aquí</button>
+    <p id="counter">0 clics por segundo</p>
+</div>
+
+<script>
+    let clicks = 0;
+    let clicksPerSecond = 0;
+    let timer;
+
+    document.getElementById("clickButton").addEventListener("click", function() {
+        clicks++;
+    });
+
+    function updateCounter() {
+        clicksPerSecond = clicks / 5; // Actualiza el contador cada 200 ms (5 veces por segundo)
+        document.getElementById("counter").textContent = clicksPerSecond.toFixed(1) + " clics por segundo";
+        clicks = 0; // Reinicia el contador de clics
+    }
+
+    setInterval(updateCounter, 1000); // Actualiza el contador cada 200 ms (5 veces por segundo)
+</script>
+</body>
+</html>

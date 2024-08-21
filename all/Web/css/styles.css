@@ -1,0 +1,237 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Barra de navegación fija */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor del contenido principal */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    z-index: 1000;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra alrededor del logo */
+}
+
+/* Menú de navegación */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* Espacio entre el logo y los enlaces */
+    margin-right: auto; /* Empuja el menú hacia la izquierda */
+}
+
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+}
+
+.nav-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Botón de jugar en la barra de navegación */
+.btn-play {
+    background-color: #00bfff;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, opacity 0.5s ease;
+    opacity: 0; /* Inicialmente oculto */
+    margin-left: 20px; /* Espacio entre el menú y el botón */
+    margin-right: 30px; /* Incrementa el espacio del botón desde el borde derecho */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor del botón de jugar */
+}
+
+.btn-play:hover {
+    background-color: #0099cc;
+}
+
+/* Contenedor de la imagen fija */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.fixed-image {
+    position: fixed;
+    top: 60px; /* Ajustado para no chocar con la barra de navegación */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px); /* Ajusta para que no se oculte detrás de la barra */
+    object-fit: cover;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor de la imagen fija */
+}
+
+/* Botón en la imagen */
+.btn-play-img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #00bfff;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 30px;
+    text-decoration: none;
+    z-index: 2;
+    transition: background-color 0.3s ease, opacity 0.5s ease;
+    opacity: 0; /* Inicialmente oculto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor del botón en la imagen */
+}
+
+.btn-play-img:hover {
+    background-color: #0099cc;
+}
+
+/* Contenido */
+main {
+    position: relative;
+    z-index: 2;
+    margin-top: 0; /* Elimina el espacio entre la imagen y el contenido */
+    background: #373B44;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor del contenido principal */
+}
+
+/* Espacio entre la imagen y el contenido */
+main {
+    margin-top: 60px; /* Espacio para evitar superposición con la imagen */
+}
+
+/* Sección de héroe */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 10vh; /* Asegura que ocupe al menos la altura de la pantalla */
+    padding: 40px 20px; /* Reduce el padding para menos espacio en blanco */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor de la sección */
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Reduce el espacio entre el texto y el botón */
+    text-align: left; /* Alinea el texto a la izquierda dentro del contenedor flex */
+    max-width: 1500px; /* Limita el ancho del contenedor */
+    width: 100%;
+    margin: auto; /* Centra el contenido horizontalmente */
+    padding: 10px 1px; /* Reduce el padding para menos espacio en blanco */
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra alrededor del botón primario */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Sección de características */
+.features {
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.features .feature {
+    margin: 20px 0;
+}
+
+.features img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra alrededor de las imágenes en las características */
+}
+
+/* Sección de contacto */
+.contacto {
+    text-align: center;
+}
+
+.contacto form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contacto label {
+    margin-top: 10px;
+}
+
+.contacto input, .contacto textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra alrededor de los campos del formulario */
+}
+
+.contacto button {
+    margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+    background: #0f0c29;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    z-index: 3; /* Asegura que el footer esté sobre la imagen */
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor del footer */
+}

@@ -106,7 +106,7 @@ main {
     position: relative;
     z-index: 2;
     margin-top: 0;
-    background: linear-gradient(to right, #4286f4, #373B44);
+    background: linear-gradient(to right, #4286f4, #b2b2b3);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -147,61 +147,39 @@ main {
     background-color: #0056b3;
 }
 
-/* Sección de características */
-.features {
-    background: #f9f9f9;
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.features h2 {
-    margin-top: 0;
-    padding-top: 40px;
-    font-size: 2rem;
-}
-
-.features .feature {
-    margin: 20px auto;
-    max-width: 400px;
-    padding: 20px;
-}
-
-.features img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(49, 49, 49, 0.2);
-}
-
-/* Slider Styles */
-.slider-container {
+.carousel {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    max-width: 600px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
-.slides {
+.carousel-track-container {
+    position: relative;
+    height: 400px; /* Ajusta la altura según tus imágenes */
+}
+
+.carousel-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.slide {
+.carousel-slide {
     min-width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center; /* Centra horizontalmente la imagen */
-    align-items: center; /* Centra verticalmente la imagen */
+    transition: opacity 0.5s ease-in-out;
 }
 
-.slide img {
-    max-width: 100%;
-    max-height: 100%; /* Asegura que la imagen no exceda el contenedor en altura */
-    object-fit: contain; /* Ajusta la imagen para mantener sus proporciones */
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Flechas del slider */
-.next, .prev {
+.carousel-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -210,17 +188,103 @@ main {
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 2;
+    font-size: 24px;
 }
 
-.next {
-    right: 10px;
-}
-
-.prev {
+.carousel-button-left {
     left: 10px;
 }
 
+.carousel-button-right {
+    right: 10px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Contenedor del carrusel y la información */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px; /* Ajusta el ancho máximo según sea necesario */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.carousel {
+    position: relative;
+    width: 70%; /* Ajusta el ancho del carrusel */
+    margin-right: 20px;
+}
+
+.carousel-track-container {
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 24px;
+}
+
+.carousel-button-left {
+    left: 10px;
+}
+
+.carousel-button-right {
+    right: 10px;
+}
+
+.carousel-info {
+    width: 30%; /* Ancho del contenedor de información */
+    padding: 20px;
+    background-color: #f4f4f4; /* Color de fondo para el área de información */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-info h3 {
+    margin-top: 0;
+}
+
+.carousel-info p {
+    font-size: 16px;
+    color: #333;
+}
+
+
+
+/* Sección de contacto */
 .contacto {
     background: #264952;
     color: #fff;
@@ -254,13 +318,12 @@ main {
 
 /* Footer */
 .footer {
-    background: #0f0c29;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #0f0c29;
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
     color: #fff;
     text-align: center;
     padding: 10px 0;
     position: relative;
-    z-index: 3; /* Asegura que el footer esté sobre la imagen */
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3); /* Sombra alrededor del footer */
+    z-index: 3;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
 }

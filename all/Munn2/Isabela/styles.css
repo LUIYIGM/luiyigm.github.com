@@ -1,0 +1,207 @@
+/* Estilos generales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  color: #fff;
+  overflow: hidden;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+/* Efecto de corazones flotantes */
+.heart {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: red;
+  transform: rotate(45deg);
+  animation: float 5s infinite ease-in-out;
+  opacity: 0.7;
+}
+
+.heart:before,
+.heart:after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: red;
+  border-radius: 50%;
+}
+
+.heart:before { top: -7px; left: 0; }
+.heart:after { top: 0; left: -7px; }
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(45deg); opacity: 0.7; }
+  50% { opacity: 0.9; }
+  100% { transform: translateY(-1000px) rotate(45deg); opacity: 0; }
+}
+
+/* Contenedor principal centrado */
+.container {
+  max-width: 800px;
+  width: 90%;  /* Hace que se adapte al 90% del ancho */
+  padding: 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  position: relative; /* Para que los corazones flotantes aparezcan dentro del contenedor */
+  overflow: hidden;
+}
+
+/* Galería de fotos */
+.gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.gallery img {
+  width: 150px;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* Mensaje personalizado */
+.message {
+  margin: 20px 0;
+  font-size: 1.2em;
+}
+
+/* Botón especial */
+.celebrate-btn {
+  background-color: #ff7e5f;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.celebrate-btn:hover {
+  background-color: #feb47b;
+}
+
+/* Corazones flotantes en pantalla */
+.falling-heart {
+  position: fixed;
+  top: -50px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  transform: rotate(45deg);
+  animation: fall linear infinite;
+  opacity: 0.8; /* Opacidad inicial */
+  z-index: 10;
+}
+
+.falling-heart::before,
+.falling-heart::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.falling-heart::before {
+  top: -10px;
+  left: 0;
+}
+
+.falling-heart::after {
+  left: -10px;
+  top: 0;
+}
+
+@keyframes fall {
+  0% {
+      transform: translateY(-100px) rotate(45deg);
+      opacity: 0.8;
+  }
+  100% {
+      transform: translateY(100vh) rotate(45deg);
+      opacity: 0.5; /* Se reduce ligeramente para dar un efecto sutil */
+  }
+}
+
+/* Estilos para dispositivos móviles y pantallas pequeñas */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+  }
+
+  .container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .message {
+    font-size: 1rem;
+  }
+
+  .gallery img {
+    width: 120px; /* Reducción del tamaño de las imágenes */
+  }
+
+  .celebrate-btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+}
+
+/* Estilos para pantallas de teléfonos pequeños */
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .message {
+    font-size: 0.9rem;
+  }
+
+  .gallery img {
+    width: 100px; /* Imágenes aún más pequeñas */
+  }
+
+  .celebrate-btn {
+    padding: 8px 14px;
+    font-size: 0.85em;
+  }
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-10px); }
+  40% { transform: translateY(5px); }
+  60% { transform: translateY(-5px); }
+  80% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+

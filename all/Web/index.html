@@ -34,30 +34,40 @@
 
         <section id="features" class="features">
             <h2>Características</h2>
-            <div class="feature">
-                <h3>Característica 1</h3>
-                <div class="slider-container">
-                    <div class="slides">
-                        <div class="slide">
-                            <img src="img/feature1.jpeg" alt="Característica 1 - Imagen 1">
-                        </div>
-                        <div class="slide">
-                            <img src="img/feature2.jpeg" alt="Característica 1 - Imagen 2">
-                        </div>
-                        <div class="slide">
-                            <img src="img/feature3.jpeg" alt="Característica 1 - Imagen 3">
-                        </div>
+        
+            <!-- Contenedor del carrusel y la información -->
+            <div class="carousel-container">
+                <!-- Carrusel de imágenes -->
+                <div class="carousel">
+                    <div class="carousel-track-container">
+                        <ul class="carousel-track">
+                            <li class="carousel-slide">
+                                <img src="img/feature1.jpeg" alt="Característica 1">
+                            </li>
+                            <li class="carousel-slide">
+                                <img src="img/feature2.jpeg" alt="Característica 2">
+                            </li>
+                            <li class="carousel-slide">
+                                <img src="img/feature3.jpeg" alt="Característica 3">
+                            </li>
+                        </ul>
                     </div>
-                    <button class="prev">❮</button>
-                    <button class="next">❯</button>
+        
+                    <!-- Controles de navegación del carrusel -->
+                    <button class="carousel-button carousel-button-left">❮</button>
+                    <button class="carousel-button carousel-button-right">❯</button>
+                </div>
+        
+                <!-- Contenedor de información -->
+                <div class="carousel-info">
+                    <h3 id="carousel-title">Título 1</h3>
+                    <p id="carousel-description">Descripción de la característica 1.</p>
                 </div>
             </div>
-            <div class="feature">
-                <img src="feature2.jpg" alt="Característica 2">
-                <h3>Característica 2</h3>
-                <p>Descripción de la característica 2.</p>
-            </div>
         </section>
+        
+        
+
 
         <section id="contacto" class="contacto">
             <h2>Contacto</h2>

@@ -20,7 +20,7 @@ html {
     --s: 100%;
     --l: 50%;
     display: flex;
-    color: hsl(0deg, var(--s), var(--l));  gap: 1rem;
+    color: hsl(210deg, var(--s), var(--l));  gap: 1rem;
     width: 100%;
     height: 100%;
     position: relative;

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Usamos el mismo archivo CSS para la coherencia del diseño -->
+</head>
+<body>
+
+    <div class="welcome-container">
+        <h1>¡Bienvenido, <span id="username-display"></span>!</h1>
+        <p>Has iniciado sesión exitosamente.</p>
+        
+        <!-- Formulario para ingresar los 20 valores -->
+        <h2>Ingrese 20 valores</h2>
+        <div class="input-group">
+            <!-- Los 20 campos para ingresar valores -->
+            <input type="number" class="value-input" placeholder="Valor 1">
+            <input type="number" class="value-input" placeholder="Valor 2">
+            <input type="number" class="value-input" placeholder="Valor 3">
+            <input type="number" class="value-input" placeholder="Valor 4">
+            <input type="number" class="value-input" placeholder="Valor 5">
+            <input type="number" class="value-input" placeholder="Valor 6">
+            <input type="number" class="value-input" placeholder="Valor 7">
+            <input type="number" class="value-input" placeholder="Valor 8">
+            <input type="number" class="value-input" placeholder="Valor 9">
+            <input type="number" class="value-input" placeholder="Valor 10">
+            <input type="number" class="value-input" placeholder="Valor 11">
+            <input type="number" class="value-input" placeholder="Valor 12">
+            <input type="number" class="value-input" placeholder="Valor 13">
+            <input type="number" class="value-input" placeholder="Valor 14">
+            <input type="number" class="value-input" placeholder="Valor 15">
+            <input type="number" class="value-input" placeholder="Valor 16">
+            <input type="number" class="value-input" placeholder="Valor 17">
+            <input type="number" class="value-input" placeholder="Valor 18">
+            <input type="number" class="value-input" placeholder="Valor 19">
+            <input type="number" class="value-input" placeholder="Valor 20">
+        </div>
+        <button class="btn" onclick="calculatePrediction()">Calcular Probabilidad</button>
+
+        <!-- Resultado de la predicción -->
+        <div id="prediction-result" class="prediction-result">
+            <h3>Predicción:</h3>
+            <p id="predicted-value">Aún no se ha calculado.</p>
+        </div>
+        
+        <!-- Botón de cerrar sesión -->
+        <button class="btn" onclick="logout()">Cerrar sesión</button>
+    </div>
+
+    <script>
+        // Mostrar el nombre de usuario en la página de bienvenida
+        const username = localStorage.getItem("username");
+        document.getElementById("username-display").textContent = username ? username : 'Usuario';
+
+        // Función para cerrar sesión y redirigir a la página de login
+        function logout() {
+            localStorage.removeItem("username");
+            localStorage.removeItem("password");
+            window.location.href = "index.html"; // Redirigir al login
+        }
+
+        // Función para calcular la predicción
+        function calculatePrediction() {
+            const inputs = document.querySelectorAll('.value-input');
+            const values = [];
+            inputs.forEach(input => {
+                if(input.value) {
+                    values.push(Number(input.value)); // Guardamos los valores ingresados en un arreglo
+                }
+            });
+
+            if (values.length !== 20) {
+                document.getElementById("prediction-result").style.display = 'block';
+                document.getElementById("predicted-value").textContent = "Por favor, ingrese 20 valores.";
+                return;
+            }
+
+            // Método simple para predicción: Usamos el promedio de los valores para predecir el siguiente
+            const sum = values.reduce((acc, val) => acc + val, 0);
+            const average = sum / values.length; // Promedio de los valores
+            const nextPrediction = Math.round(average); // Redondeamos al valor entero más cercano
+
+            document.getElementById("prediction-result").style.display = 'block';
+            document.getElementById("predicted-value").textContent = `El siguiente valor predicho es: ${nextPrediction}`;
+        }
+    </script>
+</body>
+</html>

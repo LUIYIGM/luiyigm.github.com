@@ -1,0 +1,145 @@
+/* styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e74c3c, #2c3e50); /* Fondo en tonos rojos y negros */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Para evitar que el scroll se vea al mover las estrellas */
+    position: relative;
+}
+
+/* Aseguramos que el login container esté absolutamente centrado */
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrado exacto en la pantalla */
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    z-index: 1; /* Para asegurar que el formulario esté por encima de las estrellas */
+}
+
+.login-container:hover {
+    transform: translate(-50%, -50%) scale(1); /* Efecto de hover sin perder el centro */
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #e74c3c; /* Bordes rojos al hacer focus */
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #e74c3c; /* Rojo para el botón */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #c0392b; /* Rojo oscuro al hacer hover */
+}
+
+.error {
+    color: #e74c3c; /* Color rojo para los mensajes de error */
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+footer a {
+    color: #e74c3c;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para la imagen del aviador */
+.avatar-image {
+    width: 150px; /* Aumentado a 150px */
+    height: 150px; /* Aumentado a 150px */
+    margin-bottom: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+/* styles.css (Agregado para el formulario y predicción) */
+.input-group {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columnas para un diseño más limpio */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.value-input {
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.value-input:focus {
+    outline: none;
+    border-color: #e74c3c;
+}
+
+.prediction-result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    border: 2px solid #e74c3c;
+    display: none; /* Se oculta hasta que se calcule la predicción */
+}
+
+.prediction-result h3 {
+    margin-bottom: 10px;
+}
+
+.prediction-result p {
+    font-size: 18px;
+    color: #333;
+}

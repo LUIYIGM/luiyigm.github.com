@@ -4,48 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Usamos el mismo archivo CSS para la coherencia del diseño -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- Hora local -->
+    <div id="clock" class="clock"></div> <!-- Aquí se mostrará la hora -->
 
     <div class="welcome-container">
         <h1>¡Bienvenido, <span id="username-display"></span>!</h1>
         <p>Has iniciado sesión exitosamente.</p>
         
-        <!-- Formulario para ingresar los 20 valores -->
-        <h2>Ingrese 20 valores</h2>
+        <!-- Formulario para ingresar 3 valores -->
+        <h2>Ingrese 3 valores</h2>
         <div class="input-group">
-            <!-- Los 20 campos para ingresar valores -->
             <input type="number" class="value-input" placeholder="Valor 1">
             <input type="number" class="value-input" placeholder="Valor 2">
             <input type="number" class="value-input" placeholder="Valor 3">
-            <input type="number" class="value-input" placeholder="Valor 4">
-            <input type="number" class="value-input" placeholder="Valor 5">
-            <input type="number" class="value-input" placeholder="Valor 6">
-            <input type="number" class="value-input" placeholder="Valor 7">
-            <input type="number" class="value-input" placeholder="Valor 8">
-            <input type="number" class="value-input" placeholder="Valor 9">
-            <input type="number" class="value-input" placeholder="Valor 10">
-            <input type="number" class="value-input" placeholder="Valor 11">
-            <input type="number" class="value-input" placeholder="Valor 12">
-            <input type="number" class="value-input" placeholder="Valor 13">
-            <input type="number" class="value-input" placeholder="Valor 14">
-            <input type="number" class="value-input" placeholder="Valor 15">
-            <input type="number" class="value-input" placeholder="Valor 16">
-            <input type="number" class="value-input" placeholder="Valor 17">
-            <input type="number" class="value-input" placeholder="Valor 18">
-            <input type="number" class="value-input" placeholder="Valor 19">
-            <input type="number" class="value-input" placeholder="Valor 20">
         </div>
         <button class="btn" onclick="calculatePrediction()">Calcular Probabilidad</button>
 
-        <!-- Resultado de la predicción -->
         <div id="prediction-result" class="prediction-result">
             <h3>Predicción:</h3>
             <p id="predicted-value">Aún no se ha calculado.</p>
         </div>
-        
-        <!-- Botón de cerrar sesión -->
+
         <button class="btn" onclick="logout()">Cerrar sesión</button>
     </div>
 
@@ -71,9 +54,9 @@
                 }
             });
 
-            if (values.length !== 20) {
+            if (values.length !== 3) {
                 document.getElementById("prediction-result").style.display = 'block';
-                document.getElementById("predicted-value").textContent = "Por favor, ingrese 20 valores.";
+                document.getElementById("predicted-value").textContent = "Por favor, ingrese 3 valores.";
                 return;
             }
 
@@ -85,6 +68,20 @@
             document.getElementById("prediction-result").style.display = 'block';
             document.getElementById("predicted-value").textContent = `El siguiente valor predicho es: ${nextPrediction}`;
         }
+
+        // Función para mostrar la hora local
+        function showTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById("clock").textContent = timeString; // Mostrar la hora en el div
+        }
+
+        // Actualizamos la hora cada segundo
+        setInterval(showTime, 1000);
+        showTime(); // Mostrar la hora inmediatamente al cargar la página
     </script>
 </body>
 </html>

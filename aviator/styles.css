@@ -143,3 +143,19 @@ footer a:hover {
     font-size: 18px;
     color: #333;
 }
+
+/* styles.css (Agregado para la hora local) */
+
+.clock {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}

@@ -1,0 +1,53 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0e5ff; /* Color de fondo suave */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Para evitar scroll por las flores */
+}
+
+.container {
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    color: #6a0dad; /* Color del título */
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre botones */
+}
+
+button {
+    background-color: #ff69b4; /* Color de fondo de los botones */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Efecto de transición */
+}
+
+button:hover {
+    background-color: #ff1493; /* Color al pasar el ratón */
+    transform: scale(1.1); /* Efecto de aumento */
+}
+
+/* Animación de flores o corazones */
+.flower {
+    position: absolute;
+    width: 50px;
+    animation: float 5s infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}

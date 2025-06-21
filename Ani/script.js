@@ -14,3 +14,13 @@ function createFloatingElement() {
 
 // Crear flores o corazones cada 1 segundo
 setInterval(createFloatingElement, 1000);
+
+// Función para resaltar los bordes
+function highlightBorders() {
+    document.body.classList.add('highlight'); // Añadir clase para el borde rojo
+
+    // Quitar la clase después de 2 segundos
+    setTimeout(() => {
+        document.body.classList.remove('highlight');
+    }, 2000); // Cambia el tiempo según lo necesites
+}

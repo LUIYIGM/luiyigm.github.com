@@ -51,3 +51,9 @@ button:hover {
     50% { transform: translateY(-20px); }
     100% { transform: translateY(0); }
 }
+
+/* Clase para el borde rojo */
+.highlight {
+    border: 5px solid red; /* Borde rojo */
+    transition: border-color 1s ease; /* Transición suave */
+}

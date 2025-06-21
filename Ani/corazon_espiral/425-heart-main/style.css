@@ -1,0 +1,41 @@
+body{
+  margin-top: 130px;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+}
+
+.love-text {
+  position: absolute;
+  top: 500px;
+  left: 720px;
+  transform: translate(-50%, -50%);
+  font-size: 70px;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  background: linear-gradient(45deg, #ff0202, #ff1447, #FF4500, #FF6347);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: flame-colors 4s infinite ease-in-out, flicker 2s infinite;
+  text-shadow: 2px 2px 10px #ff0000, 0 0 20px #ff143b;
+}
+
+@keyframes flame-colors {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 50%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.9;
+  }
+}

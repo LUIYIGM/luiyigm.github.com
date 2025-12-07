@@ -19,7 +19,8 @@ h1 {
 
 .button-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* 👈 Alinea los botones verticalmente */
+    align-items: center; /* Centra los botones */
     gap: 20px; /* Espacio entre botones */
 }
 

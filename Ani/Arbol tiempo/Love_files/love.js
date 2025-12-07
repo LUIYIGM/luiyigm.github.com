@@ -460,7 +460,7 @@
             // RGB(102,205,170)
             // RGB(34,139,34)
         	ctx.fillStyle = 'RGB(0,128,128)';
-            ctx.shadowColor = '#22b822';
+            ctx.shadowColor = '#66432fff';
             ctx.shadowBlur = 2;
         	ctx.moveTo(p.x, p.y);
         	ctx.arc(p.x, p.y, s.radius, 0, 2 * Math.PI);

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ani ❤️ Luis</title>
+
+<style>
+:root{
+    --pink:#0a1f44;
+    --light:#6ecbff;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:linear-gradient(120deg,#ff5f9e,#ffc371);
+    color:white;
+    overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(0,0,0,.2);
+    padding:15px;
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    z-index:1000;
+    backdrop-filter: blur(10px);
+}
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* HERO */
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+}
+.hero h1{
+    font-size:4em;
+}
+.hero span{
+    color:#ffd1e3;
+}
+.hero p{
+    margin-top:20px;
+    max-width:700px;
+    font-size:1.4em;
+}
+
+/* SECTIONS */
+section{
+    padding:100px 20px;
+    text-align:center;
+}
+h2{
+    font-size:3em;
+    margin-bottom:30px;
+}
+
+/* STORY */
+.story{
+    max-width:900px;
+    margin:auto;
+    line-height:2;
+    font-size:1.2em;
+}
+
+/* COUNTER */
+.counter{
+    font-size:4em;
+    font-weight:bold;
+}
+
+/* GALLERY */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    max-width:1000px;
+    margin:auto;
+}
+.gallery img{
+    width:100%;
+    border-radius:20px;
+    box-shadow:0 10px 20px rgba(0,0,0,.4);
+}
+
+/* PROMISES */
+.promises{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+    max-width:1000px;
+    margin:auto;
+}
+.promise{
+    background:rgba(255,255,255,.15);
+    padding:30px;
+    border-radius:25px;
+    backdrop-filter: blur(10px);
+}
+
+/* BUTTON */
+.btn{
+    margin-top:40px;
+    background:#ff2f7d;
+    border:none;
+    padding:15px 50px;
+    border-radius:40px;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* HEARTS */
+.heart{
+    position:fixed;
+    top:-10px;
+    font-size:24px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    to{transform:translateY(110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#historia">Historia</a>
+    <a href="#tiempo">Tiempo</a>
+    <a href="#galeria">Fotos</a>
+    <a href="#promesas">Promesas</a>
+    <a href="#carta">Carta</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="inicio">
+    <h1>Ani <span>❤️</span> Luis</h1>
+    <p>
+        Nuestro primer mes juntos.  
+        Una historia que comenzó a distancia… pero con el corazón muy cerca.
+    </p>
+    <button class="btn" onclick="scrollDown()">Descúbrelo 💖</button>
+</div>
+
+<!-- STORY -->
+<section id="historia">
+    <h2>📖 Nuestra historia</h2>
+    <div class="story">
+        <p>
+            Durante dos años no fuiste solo alguien importante para mí…  
+            fuiste mi mejor amiga.  
+            La persona con la que hablaba cuando estaba feliz, cuando estaba triste  
+            y cuando simplemente necesitaba sentirme acompañado.
+        </p>
+
+        <p>
+            Nos conocimos sin imaginar lo que el destino estaba preparando.  
+            Entre risas, secretos, apoyo y miles de conversaciones,  
+            algo empezó a cambiar en silencio… el cariño se volvió amor.
+        </p>
+
+        <p>
+            Hace un mes dimos el paso más bonito:  
+            dejamos de ser solo mejores amigos  
+            y nos convertimos en algo más grande… en novios.
+        </p>
+
+        <p>
+            Y aunque la distancia intenta separarnos,  
+            no puede contra lo que construimos durante dos años  
+            ni contra lo que seguimos construyendo ahora, día a día, como pareja.
+        </p>
+
+        <p>
+            Este primer mes no es el comienzo…  
+            es la continuación de una historia que ya llevaba dos años escribiéndose.
+        </p>
+    </div>
+</section>
+
+
+<!-- COUNTER -->
+<section id="tiempo">
+    <h2>⏳ Nuestro tiempo juntos</h2>
+    <div class="counter" id="days"></div>
+    <p>Días desde que comenzó nuestra historia</p>
+</section>
+
+<!-- GALLERY -->
+<section id="galeria">
+    <h2>📸 Fotos de mi linda chica</h2>
+    <div class="gallery">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+    </div>
+</section>
+
+<!-- PROMISES -->
+<section id="promesas">
+    <h2>💍 Mis promesas para ti</h2>
+    <div class="promises">
+        <div class="promise">Siempre escucharte</div>
+        <div class="promise">Respetarte y cuidarte</div>
+        <div class="promise">No rendirme con nosotros</div>
+        <div class="promise">Soñar un futuro contigo</div>
+        <div class="promise">Estar cuando lo necesites</div>
+        <div class="promise">Amarte cada día más</div>
+    </div>
+</section>
+
+<!-- LETTER -->
+<section id="carta">
+    <h2>💌 Para ti, Ani</h2>
+    <div class="story">
+        <p>
+            Ani, si alguien me hubiera dicho hace dos años que mi mejor amiga
+            se convertiría en el amor de mi vida, no lo habría creído…
+            y ahora no puedo imaginar mi mundo sin ti.
+        </p>
+
+        <p>
+            Durante tanto tiempo fuiste mi refugio, mi apoyo, mi risa segura.
+            Estuviste conmigo en momentos buenos y malos,
+            escuchaste mis miedos, mis sueños y mis silencios.
+            Y sin darme cuenta, ahí mismo, entre conversaciones y confianza,
+            mi corazón empezó a elegirte.
+        </p>
+
+        <p>
+            Hace solo un mes comenzamos esta nueva etapa,
+            pero en realidad nuestra historia lleva dos años latiendo.
+            Este primer mes como novios no es poco,
+            es la confirmación de algo que ya era real desde hace tiempo:
+            que nos pertenecemos de una forma hermosa.
+        </p>
+
+        <p>
+            A veces la distancia duele,
+            porque lo único que quiero es abrazarte,
+            mirarte a los ojos y decirte todo esto sin una pantalla de por medio.
+            Pero incluso desde lejos, siento tu amor,
+            y eso me da fuerza para esperar el día en que estemos juntos.
+        </p>
+
+        <p>
+            Prometo cuidarte, respetarte y elegirte cada día.
+            Prometo escucharte cuando hables y cuando calles.
+            Prometo luchar por nosotros,
+            incluso cuando sea difícil.
+        </p>
+
+        <p>
+            Gracias por ser mi mejor amiga,
+            mi novia,
+            mi lugar seguro
+            y mi sueño más bonito.
+        </p>
+
+        <p style="font-size:1.4em;">
+            Te amo, Ani ❤️  
+            Hoy, mañana y todos los días que nos queden por vivir.
+        </p>
+
+        <button class="btn" onclick="hearts()">¿Me amas? 💕</button>
+    </div>
+</section>
+
+
+<script>
+let startDate = new Date("2025-12-01"); // cambia la fecha
+
+function updateCounter(){
+    let now = new Date();
+    let diff = now - startDate;
+    let days = Math.floor(diff / (1000*60*60*24));
+    document.getElementById("days").innerText = days + " 💖";
+}
+setInterval(updateCounter,1000);
+
+function scrollDown(){
+    window.scrollTo({top: window.innerHeight, behavior:"smooth"});
+}
+
+function hearts(){
+    for(let i=0;i<50;i++){
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*100+"vw";
+        h.style.animationDuration=(3+Math.random()*5)+"s";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),8000);
+    }
+}
+</script>
+
+</body>
+</html>

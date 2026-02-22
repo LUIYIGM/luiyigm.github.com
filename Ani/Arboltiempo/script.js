@@ -13,10 +13,15 @@
     canvas.attr("height", height);
 
     // ===== CONTROL MANUAL DEL RELOJ =====
-    // 🔒 true = congelado
-    // ▶️ false = corriendo
-    var CLOCK_PAUSED = true; // ⭐⭐⭐ ESTA ES LA LÍNEA QUE CAMBIAS ⭐⭐⭐
-    var pausedNow = CLOCK_PAUSED ? new Date() : null;
+
+    // 🔒 true = usar fecha congelada
+    // ▶️ false = usar tiempo real
+    var CLOCK_PAUSED = true;
+
+    // ⭐⭐⭐ ESTA ES LA ÚNICA LÍNEA QUE CAMBIAS ⭐⭐⭐
+    var FROZEN_DATE = new Date("2026-02-22T00:00:00");
+
+    var pausedNow = CLOCK_PAUSED ? FROZEN_DATE : null;
 
     var opts = {
         seed: {

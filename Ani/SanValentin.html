@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Amor ❤️</title>
+    <style>
+        :root {
+            --pink: #ff4d6d;
+            --dark-pink: #c9184a;
+            --soft-pink: #ffb3c1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffeef0 0%, #ffb3c1 100%);
+            font-family: 'Dancing Script', cursive;
+            overflow: hidden;
+        }
+
+        /* Estilo del Sobre */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: var(--pink);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid var(--dark-pink);
+            transform-origin: top;
+            transition: transform 0.5s 0.3s;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background: white;
+            border-radius: 5px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.5s;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .letter h2 { font-size: 1.5rem; color: var(--pink); margin: 0; }
+        .letter p { font-size: 1rem; color: #333; }
+
+        /* Animación al Abrir */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-120px);
+            height: 350px;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Botones Jugetones */
+        .buttons {
+            margin-top: 15px;
+            display: none;
+        }
+        .envelope-wrapper.open .buttons { display: block; }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #yesBtn { background: var(--pink); color: white; }
+        #noBtn { position: absolute; background: #999; color: white; transition: 0.2s; }
+
+        /* Lluvia de pétalos */
+        .heart-particle {
+            position: absolute;
+            color: var(--pink);
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
+        <div class="envelope"></div>
+        <div class="letter">
+            <h2>Hola Amor... ❤️</h2>
+            <p>Desde que llegaste a mi vida, todo es mejor. Este San Valentín es especial porque lo paso contigo.</p>
+            <p><strong>¿Me dejarías amarte hoy y siempre?</strong></p>
+            
+            <div class="buttons">
+                <button id="yesBtn" onclick="alert('¡Sabía que dirías que sí! ❤️ Te amo infinito.')">SÍ, SIEMPRE</button>
+                <button id="noBtn" onmouseover="moverBoton(this)">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para que el botón NO huya
+        function moverBoton(btn) {
+            const x = Math.random() * (window.innerWidth - btn.clientWidth);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight);
+            btn.style.left = x + "px";
+            btn.style.top = y + "px";
+        }
+
+        // Generador de corazones flotantes
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '🌸';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+
+</body>
+</html>

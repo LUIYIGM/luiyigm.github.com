@@ -12,6 +12,12 @@
     canvas.attr("width", width);
     canvas.attr("height", height);
 
+    // ===== CONTROL MANUAL DEL RELOJ =====
+    // 🔒 true = congelado
+    // ▶️ false = corriendo
+    var CLOCK_PAUSED = true; // ⭐⭐⭐ ESTA ES LA LÍNEA QUE CAMBIAS ⭐⭐⭐
+    var pausedNow = CLOCK_PAUSED ? new Date() : null;
+
     var opts = {
         seed: {
             x: width / 2 - 20,
@@ -46,7 +52,7 @@
             height: 5,
             speed: 10,
         }
-    }
+    };
 
     var tree = new Tree(canvas[0], width, height, opts);
     var seed = tree.seed;
@@ -135,8 +141,13 @@
 
         $("#code").show().typewriter();
         $("#clock-box").fadeIn(500);
+
         while (true) {
-            timeElapse(together);
+            if (CLOCK_PAUSED && pausedNow) {
+                timeElapse(together, pausedNow);
+            } else {
+                timeElapse(together);
+            }
             $await(Jscex.Async.sleep(1000));
         }
     }));

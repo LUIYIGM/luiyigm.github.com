@@ -1,59 +1,121 @@
+:root {
+    --primary: #4f46e5;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0f172a;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    color: #f8fafc;
 }
 
-.login-container {
-    background: #1e293b;
+/* Login */
+#login-screen {
+    background: var(--surface);
     padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin-top: 10vh;
 }
 
-h2 { text-align: center; margin-bottom: 0.5rem; color: #38bdf8; }
-p { text-align: center; font-size: 0.9rem; color: #94a3b8; margin-bottom: 2rem; }
+.logo { font-size: 3rem; margin-bottom: 1rem; }
 
-.input-group { margin-bottom: 1.5rem; }
-label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; }
+/* Dashboard */
+#main-dashboard { width: 100%; max-width: 1200px; }
 
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    border-left: 6px solid var(--primary);
+}
+
+.stat-card.border-success { border-left-color: var(--success); }
+.stat-card.border-warning { border-left-color: var(--warning); }
+
+.stat-card p { font-size: 1.8rem; font-weight: 700; margin-top: 5px; }
+
+/* Grid de Contenido */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 1.5rem;
+}
+
+.panel {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.table-responsive { overflow-x: auto; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th { text-align: left; padding: 12px; color: var(--text-muted); border-bottom: 2px solid #f3f4f6; }
+td { padding: 12px; border-bottom: 1px solid #f3f4f6; }
+
+/* Inputs y Botones */
 input {
     width: 100%;
-    padding: 0.75rem;
-    border-radius: 6px;
-    border: 1px solid #334155;
-    background: #0f172a;
-    color: white;
-    box-sizing: border-box;
+    padding: 12px;
+    margin: 8px 0 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
 }
 
 button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #38bdf8;
-    border: none;
-    border-radius: 6px;
-    color: #0f172a;
-    font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
+    border: none;
+    border-radius: 8px;
+    transition: 0.2s;
 }
 
-button:hover { background-color: #7dd3fc; }
+.btn-primary { width: 100%; padding: 12px; background: var(--primary); color: white; font-weight: 600; }
+.btn-logout { padding: 8px 16px; background: var(--text-main); color: white; }
 
-.message {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 0.85rem;
-    min-height: 1.2rem;
+.btn-action { padding: 6px 12px; font-size: 0.8rem; margin-right: 5px; }
+.btn-pay { background: var(--success); color: white; }
+.btn-del { background: #fee2e2; color: var(--danger); }
+
+/* Badges */
+.badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
+.bg-danger { background: #fee2e2; color: var(--danger); }
+.bg-success { background: #dcfce7; color: var(--success); }
+
+@media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
 }
-
-.success { color: #4ade80; }
-.error { color: #f87171; }

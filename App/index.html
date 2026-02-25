@@ -3,29 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login de Licencia - Robot MQ5</title>
+    <title>SGP | Gestión de Préstamos</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="login-container">
-        <form id="loginForm">
-            <h2>Acceso al Sistema</h2>
-            <p>Ingresa los datos vinculados a tu cuenta MT5</p>
-            
-            <div class="input-group">
-                <label for="account">Número de Cuenta</label>
-                <input type="number" id="account" placeholder="Ej: 12345678" required>
-            </div>
 
-            <div class="input-group">
-                <label for="licenseKey">Clave de Licencia</label>
-                <input type="password" id="licenseKey" placeholder="••••••••" required>
-            </div>
-
-            <button type="submit" id="loginBtn">Validar Acceso</button>
-            <div id="message" class="message"></div>
-        </form>
+    <div id="login-screen" class="card-shadow">
+        <div class="logo">🏦</div>
+        <h2>Admin Access</h2>
+        <p>Introduce tus credenciales para gestionar la cartera.</p>
+        <input type="password" id="pass-input" placeholder="Contraseña de Administrador">
+        <button onclick="checkLogin()">Entrar al Sistema</button>
+        <p id="error-msg" class="text-danger" style="display: none;">Acceso Denegado</p>
     </div>
+
+    <main id="main-dashboard" style="display: none;">
+        <header class="main-header">
+            <div>
+                <h1>Panel de Control</h1>
+                <p id="current-date"></p>
+            </div>
+            <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+        </header>
+
+        <section class="stats-container">
+            <div class="stat-card">
+                <span>Capital en Calle</span>
+                <p id="stat-total">$0.00</p>
+            </div>
+            <div class="stat-card border-success">
+                <span>Clientes Activos</span>
+                <p id="stat-clientes">0</p>
+            </div>
+            <div class="stat-card border-warning">
+                <span>Pagos Completados</span>
+                <p id="stat-pagos">0</p>
+            </div>
+        </section>
+
+        <div class="dashboard-grid">
+            <aside class="panel">
+                <h3>Nuevo Préstamo</h3>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="c-name" placeholder="Nombre completo">
+                    <label>Monto ($)</label>
+                    <input type="number" id="c-amount" placeholder="Ej: 1000">
+                    <label>Interés (%)</label>
+                    <input type="number" id="c-interest" value="10">
+                    <button class="btn-primary" onclick="createLoan()">Registrar Operación</button>
+                </div>
+            </aside>
+
+            <section class="panel table-section">
+                <h3>Cartera de Clientes</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Monto Base</th>
+                                <th>Deuda Actual</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="loan-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>

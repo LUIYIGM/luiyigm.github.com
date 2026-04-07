@@ -1,110 +1,130 @@
-// CONFIGURACIÓN DE SEGURIDAD
-const PASSWORD_SGP = "admin2026"; // Cambia esta contraseña
-let prestamos = JSON.parse(localStorage.getItem('datos_prestamos')) || [];
+// CONFIGURACIÓN INICIAL
+const ADMIN_PASSWORD = "admin2026"; 
+let prestamos = JSON.parse(localStorage.getItem('sgp_data')) || [];
 
-// Mostrar fecha
 document.getElementById('current-date').innerText = new Date().toLocaleDateString('es-ES', { 
-    weekday: 'long', day: 'numeric', month: 'long' 
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
 });
 
-// Función de Login
 function checkLogin() {
-    const passValue = document.getElementById('pass-input').value;
-    if (passValue === PASSWORD_SGP) {
+    const input = document.getElementById('pass-input').value;
+    if (input === ADMIN_PASSWORD) {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('main-dashboard').style.display = 'block';
-        renderTable();
+        renderData();
     } else {
-        const error = document.getElementById('error-msg');
-        error.style.display = 'block';
-        setTimeout(() => error.style.display = 'none', 2000);
+        const err = document.getElementById('error-msg');
+        err.style.display = 'block';
+        setTimeout(() => err.style.display = 'none', 2000);
     }
 }
 
 function logout() { location.reload(); }
 
-// Crear Préstamo
 function createLoan() {
     const name = document.getElementById('c-name').value;
-    const amount = parseFloat(document.getElementById('c-amount').value);
-    const interest = parseFloat(document.getElementById('c-interest').value);
+    const address = document.getElementById('c-address').value; // Nueva captura
+    const capital = parseFloat(document.getElementById('c-amount').value);
+    const tasaMensual = parseFloat(document.getElementById('c-interest').value);
+    const meses = parseInt(document.getElementById('c-installments').value);
 
-    if (!name || isNaN(amount)) return alert("Por favor, llena los campos correctamente.");
+    if (!name || !address || isNaN(capital) || isNaN(meses)) {
+        return alert("Por favor, completa todos los campos, incluyendo la dirección.");
+    }
 
-    const totalDeuda = amount + (amount * (interest / 100));
+    const interesTotal = capital * (tasaMensual / 100) * meses;
+    const totalADeber = capital + interesTotal;
+    const valorCuota = totalADeber / meses;
 
-    const nuevo = {
+    const nuevoPrestamo = {
         id: Date.now(),
         nombre: name,
-        base: amount,
-        restante: totalDeuda,
-        estado: 'Pendiente'
+        direccion: address, // Guardar dirección
+        capitalOriginal: capital,
+        totalADeber: totalADeber,
+        saldoRestante: totalADeber,
+        mesesTotales: meses,
+        cuotasPagadas: 0,
+        valorCuota: valorCuota
     };
 
-    prestamos.push(nuevo);
-    saveData();
-    renderTable();
+    prestamos.push(nuevoPrestamo);
+    saveAndRefresh();
     
-    // Resetear formulario
+    // Limpiar campos
     document.getElementById('c-name').value = '';
+    document.getElementById('c-address').value = '';
     document.getElementById('c-amount').value = '';
+    document.getElementById('c-installments').value = '1';
 }
 
-// Registrar un Pago (Abono)
-function registrarAbono(id) {
-    const abono = parseFloat(prompt("¿Cuánto desea abonar el cliente?"));
-    if (isNaN(abono) || abono <= 0) return;
-
+function cobrarCuota(id) {
     prestamos = prestamos.map(p => {
         if (p.id === id) {
-            p.restante = Math.max(0, p.restante - abono);
-            if (p.restante === 0) p.estado = 'Pagado';
+            if (p.saldoRestante > 0.01) {
+                p.saldoRestante = Math.max(0, p.saldoRestante - p.valorCuota);
+                p.cuotasPagadas += 1;
+            }
         }
         return p;
     });
-
-    saveData();
-    renderTable();
+    saveAndRefresh();
 }
 
-// Eliminar Registro
-function eliminarRegistro(id) {
-    if (confirm("¿Seguro que deseas eliminar este cliente?")) {
+function eliminarCliente(id) {
+    if (confirm("¿Eliminar registro permanentemente?")) {
         prestamos = prestamos.filter(p => p.id !== id);
-        saveData();
-        renderTable();
+        saveAndRefresh();
     }
 }
 
-function saveData() {
-    localStorage.setItem('datos_prestamos', JSON.stringify(prestamos));
+function saveAndRefresh() {
+    localStorage.setItem('sgp_data', JSON.stringify(prestamos));
+    renderData();
 }
 
-function renderTable() {
+function renderData() {
     const tbody = document.getElementById('loan-table-body');
     tbody.innerHTML = '';
-    let capitalTotal = 0;
+    
+    let totalCartera = 0;
+    let totalCuotasPendientes = 0;
 
     prestamos.forEach(p => {
-        capitalTotal += p.restante;
-        const badgeClass = p.estado === 'Pagado' ? 'bg-success' : 'bg-danger';
+        totalCartera += p.saldoRestante;
+        totalCuotasPendientes += (p.mesesTotales - p.cuotasPagadas);
+        
+        const estaPagado = p.saldoRestante <= 0.1;
+        const statusBadge = estaPagado ? 'bg-success' : 'bg-danger';
 
         tbody.innerHTML += `
             <tr>
-                <td><strong>${p.nombre}</strong></td>
-                <td>$${p.base.toLocaleString()}</td>
-                <td style="font-weight:700; color:var(--primary)">$${p.restante.toLocaleString()}</td>
-                <td><span class="badge ${badgeClass}">${p.estado}</span></td>
                 <td>
-                    <button class="btn-action btn-pay" onclick="registrarAbono(${p.id})">Abonar</button>
-                    <button class="btn-action btn-del" onclick="eliminarRegistro(${p.id})">✕</button>
+                    <strong>${p.nombre}</strong>
+                    <span class="address-text">📍 ${p.direccion}</span>
+                </td>
+                <td>
+                    <small style="color:var(--text-muted)">Cap: $${p.capitalOriginal.toLocaleString()}</small><br>
+                    <strong>$${p.totalADeber.toLocaleString(undefined, {minimumFractionDigits: 2})}</strong>
+                </td>
+                <td>
+                    <span class="badge ${statusBadge}">
+                        ${p.cuotasPagadas} / ${p.mesesTotales} Meses
+                    </span>
+                </td>
+                <td>$${p.valorCuota.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                <td style="color:var(--primary); font-weight:800;">
+                    $${p.saldoRestante.toLocaleString(undefined, {minimumFractionDigits: 2})}
+                </td>
+                <td>
+                    <button class="btn-action btn-pay" onclick="cobrarCuota(${p.id})">Cobrar Mes</button>
+                    <button class="btn-action btn-del" onclick="eliminarCliente(${p.id})">✕</button>
                 </td>
             </tr>
         `;
     });
 
-    // Actualizar Widgets de arriba
-    document.getElementById('stat-total').innerText = `$${capitalTotal.toLocaleString()}`;
+    document.getElementById('stat-total').innerText = `$${totalCartera.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
     document.getElementById('stat-clientes').innerText = prestamos.length;
-    document.getElementById('stat-pagos').innerText = prestamos.filter(p => p.estado === 'Pagado').length;
+    document.getElementById('stat-cuotas').innerText = totalCuotasPendientes;
 }

@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGP | Gestión de Préstamos</title>
+    <title>SGP | Gestión de Préstamos Pro</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="login-screen" class="card-shadow">
         <div class="logo">🏦</div>
         <h2>Admin Access</h2>
-        <p>Introduce tus credenciales para gestionar la cartera.</p>
+        <p>Sistema de Gestión de Carteras</p>
         <input type="password" id="pass-input" placeholder="Contraseña de Administrador">
         <button onclick="checkLogin()">Entrar al Sistema</button>
-        <p id="error-msg" class="text-danger" style="display: none;">Acceso Denegado</p>
+        <p id="error-msg" class="text-danger" style="display: none;">Contraseña Incorrecta</p>
     </div>
 
     <main id="main-dashboard" style="display: none;">
         <header class="main-header">
             <div>
-                <h1>Panel de Control</h1>
+                <h1>Panel Administrativo</h1>
                 <p id="current-date"></p>
             </div>
             <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
@@ -29,7 +29,7 @@
 
         <section class="stats-container">
             <div class="stat-card">
-                <span>Capital en Calle</span>
+                <span>Capital en Calle (Total)</span>
                 <p id="stat-total">$0.00</p>
             </div>
             <div class="stat-card border-success">
@@ -37,8 +37,8 @@
                 <p id="stat-clientes">0</p>
             </div>
             <div class="stat-card border-warning">
-                <span>Pagos Completados</span>
-                <p id="stat-pagos">0</p>
+                <span>Cuotas Pendientes</span>
+                <p id="stat-cuotas">0</p>
             </div>
         </section>
 
@@ -46,12 +46,21 @@
             <aside class="panel">
                 <h3>Nuevo Préstamo</h3>
                 <div class="form-group">
-                    <label>Cliente</label>
-                    <input type="text" id="c-name" placeholder="Nombre completo">
-                    <label>Monto ($)</label>
-                    <input type="number" id="c-amount" placeholder="Ej: 1000">
-                    <label>Interés (%)</label>
-                    <input type="number" id="c-interest" value="15">
+                    <label>Nombre del Cliente</label>
+                    <input type="text" id="c-name" placeholder="Ej. Juan Pérez">
+                    
+                    <label>Dirección del Cliente</label>
+                    <input type="text" id="c-address" placeholder="Ej. Calle 10 #5-20, Barrio Centro">
+                    
+                    <label>Monto a Prestar ($)</label>
+                    <input type="number" id="c-amount" placeholder="1000">
+                    
+                    <label>Interés Mensual (%)</label>
+                    <input type="number" id="c-interest" value="15" step="0.1">
+                    
+                    <label>Plazo (Meses / Cuotas)</label>
+                    <input type="number" id="c-installments" value="1" min="1">
+                    
                     <button class="btn-primary" onclick="createLoan()">Registrar Operación</button>
                 </div>
             </aside>
@@ -62,11 +71,12 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Cliente</th>
-                                <th>Monto Base</th>
-                                <th>Deuda Actual</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
+                                <th>Cliente / Dirección</th>
+                                <th>Cálculo Total</th>
+                                <th>Progreso</th>
+                                <th>Cuota Mensual</th>
+                                <th>Saldo Pendiente</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody id="loan-table-body"></tbody>

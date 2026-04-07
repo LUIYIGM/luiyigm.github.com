@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi persona favorita</title>
+    <style>
+        :root {
+            --color-primary: #328e9e;
+            --color-secondary: #044368;
+            --bg-color: #fff0f3;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: #590d22;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Evita scrolls accidentales */
+            touch-action: manipulation; /* Optimiza toques en móvil */
+        }
+
+        .language-selector {
+            margin-bottom: 20px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: white;
+            border: 2px solid var(--color-primary);
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .lang-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 85%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .message-box {
+            text-align: left;
+            line-height: 1.6;
+            margin: 20px 0;
+            height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 60px;
+        }
+
+        .btn {
+            background-color: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        #no-btn {
+            position: relative; 
+            z-index: 1000;
+            transition: all 0.1s ease-out;
+        }
+
+        .heart {
+            position: fixed;
+            pointer-events: none;
+            animation: float 3s linear forwards;
+        }
+
+        @keyframes float {
+            to { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="language-selector" id="lang-bar">
+        <button class="lang-btn active" onclick="changeLang('es', this)">Español</button>
+        <button class="lang-btn" onclick="changeLang('en', this)">English</button>
+        <button class="lang-btn" onclick="changeLang('id', this)">Bahasa Indonesia</button>
+    </div>
+
+    <div class="container" id="main-card">
+        <h1 id="title">Lo siento ❤️</h1>
+        <div class="message-box" id="content"></div>
+        <div class="buttons-wrapper">
+            <button class="btn" id="yes-btn" onclick="acceptApology()">Sí, te perdono</button>
+            <button class="btn" id="no-btn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+    </div>
+
+    <script>
+        const texts = {
+            es: {
+                title: "Lo siento mucho, amor ❤️",
+                yes: "Sí, te perdono",
+                no: "No",
+                thanks: "¡Eres la mejor! 💖",
+                promise: "Prometo recompensarte con mucho amor.",
+                body: `<p>Hola, preciosa. Escribo esto porque sé que me tardé una eternidad en responderte y no tienes por qué estar esperando. Sé que tu tiempo es valioso y lo último que quiero es que sientas que no eres mi prioridad. A veces el día se complica, pero eso no es una excusa válida cuando se trata de ti.</p><p>Responderte no toma ni un minuto, y tú te mereces eso y muchísimo más. Me hace sentir mal pensar que pudiste haber estado pendiente del celular esperando una señal mía. Aunque mi respuesta llegue tarde, quiero que sepas que mis pensamientos siempre están contigo y que eres quien alegra mis días.</p><p>Me comprometo a mejorar mi comunicación porque te quiero y quiero que te sientas cuidada y valorada en cada detalle. Eres la persona más importante para mí y lamento haber fallado en algo tan simple. Espero que este pequeño gesto te haga sonreír y aceptes mis disculpas. ¿Me perdonas?</p>`
+            },
+            en: {
+                title: "I'm so sorry, babe ❤️",
+                yes: "Yes, I forgive you",
+                no: "No",
+                thanks: "You're the best! 💖",
+                promise: "I promise to make it up to you.",
+                body: `<p>Hey beautiful. I'm writing this because I know I took forever to reply, and you shouldn't have to wait. I know your time is precious, and the last thing I want is for you to feel like you're not my priority. Sometimes the day gets messy, but that's no excuse when it comes to you.</p><p>Replying doesn't even take a minute, and you deserve that and so much more. It hurts me to think you might have been checking your phone waiting for me. Even if my reply is late, my thoughts are always with you. You make my day, and I never want to cause you any stress.</p><p>I promise to be more attentive because I love you and I want you to feel cared for and valued. You are the most important person to me, and I'm sorry for failing in something so simple. Can you forgive me?</p>`
+            },
+            id: {
+                title: "Maafkan aku, sayang ❤️",
+                yes: "Ya, aku memaafkanmu",
+                no: "Tidak",
+                thanks: "Kamu yang terbaik! 💖",
+                promise: "Aku berjanji akan menebusnya.",
+                body: `<p>Halo sayang. Aku menulis ini karena aku tahu aku butuh waktu lama untuk membalas, dan kamu tidak seharusnya menunggu. Aku tahu waktumu sangat berharga, dan hal terakhir yang aku inginkan adalah kamu merasa bukan prioritasku. Terkadang hari menjadi rumit, tapi itu bukan alasan jika itu tentangmu.</p><p>Membalas pesan tidak butuh waktu semenit pun, dan kamu pantas mendapatkan itu dan lebih banyak lagi. Aku merasa tidak enak memikirkanmu menunggu kabarku. Meskipun balasanku terlambat, pikiranku selalu bersamamu. Kamu adalah orang yang membuat hariku bahagia.</p><p>Aku berjanji untuk lebih perhatian karena aku mencintaimu dan ingin kamu merasa disayangi. Kamu adalah orang terpenting bagiku, dan aku minta maaf karena gagal dalam hal sesederhana ini. Apakah kamu memaafkanku?</p>`
+            }
+        };
+
+        let currentLang = 'es';
+
+        function changeLang(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            document.getElementById('title').innerText = texts[lang].title;
+            document.getElementById('content').innerHTML = texts[lang].body;
+            document.getElementById('yes-btn').innerText = texts[lang].yes;
+            document.getElementById('no-btn').innerText = texts[lang].no;
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('no-btn');
+            const card = document.getElementById('main-card').getBoundingClientRect();
+            const langBar = document.getElementById('lang-bar').getBoundingClientRect();
+            
+            // Detección automática de las dimensiones actuales de la ventana
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Cambiar a fixed para movimiento libre
+            btn.style.position = 'fixed';
+
+            // Margen de seguridad para que el botón no toque el borde exacto
+            const padding = 15; 
+            const maxX = viewportWidth - btn.offsetWidth - padding;
+            const maxY = viewportHeight - btn.offsetHeight - padding;
+
+            let newX, newY;
+            let overlapping = true;
+            let attempts = 0;
+
+            while (overlapping && attempts < 50) {
+                // Generar posición dentro de los límites detectados
+                newX = Math.max(padding, Math.random() * maxX);
+                newY = Math.max(padding, Math.random() * maxY);
+
+                // Verificar colisión con la carta central (con un margen extra)
+                const hitCard = (newX < card.right + 20 && newX + btn.offsetWidth > card.left - 20 &&
+                                 newY < card.bottom + 20 && newY + btn.offsetHeight > card.top - 20);
+                
+                // Verificar colisión con barra de idiomas
+                const hitLang = (newX < langBar.right + 10 && newX + btn.offsetWidth > langBar.left - 10 &&
+                                 newY < langBar.bottom + 10 && newY + btn.offsetHeight > langBar.top - 10);
+
+                if (!hitCard && !hitLang) {
+                    overlapping = false;
+                }
+                attempts++;
+            }
+
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+        }
+
+        function acceptApology() {
+            document.getElementById('main-card').innerHTML = `
+                <h1 style="font-size: 3rem;">💖</h1>
+                <h2>${texts[currentLang].thanks}</h2>
+                <p>${texts[currentLang].promise}</p>
+                <button class="btn" onclick="location.reload()">✨</button>
+            `;
+            startHearts();
+        }
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.color = `hsl(${Math.random() * 20 + 340}, 100%, 70%)`;
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }, 100);
+        }
+
+        changeLang('es');
+    </script>
+</body>
+</html>

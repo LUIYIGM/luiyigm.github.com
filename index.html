@@ -306,9 +306,9 @@ function dash(prof){
     <div class="kv"><span class="mute">Racha de días verdes</span><b>${streak}</b></div></div>
    <div class="card"><h4>Por activo</h4>${bars(assets)}</div>
    <div class="card"><h4>Por día de la semana</h4>${bars(['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map((d,i)=>[d,dw[i]]).filter((x,i)=>i<5||x[1]))}</div>
-   <div class="card"><h4>Long vs Short</h4>
-    <div class="kv"><span>Long · ${lo.n} ops · WR ${pct(lo.wr)}</span><b class="${cls(lo.net)}">${money(lo.net)}</b></div>
-    <div class="kv"><span>Short · ${sh.n} ops · WR ${pct(sh.wr)}</span><b class="${cls(sh.net)}">${money(sh.net)}</b></div></div>
+   <div class="card"><h4>Buy vs Sell</h4>
+    <div class="kv"><span>Buy · ${lo.n} ops · WR ${pct(lo.wr)}</span><b class="${cls(lo.net)}">${money(lo.net)}</b></div>
+    <div class="kv"><span>Sell · ${sh.n} ops · WR ${pct(sh.wr)}</span><b class="${cls(sh.net)}">${money(sh.net)}</b></div></div>
   </div></div>`;
 }
 function curve(days){

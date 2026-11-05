@@ -14,51 +14,70 @@ button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .mute{color:var(--mute)}.gain{color:var(--gain)}.loss{color:var(--loss)}
-.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
-.shell.solo{grid-template-columns:1fr}
-aside{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px}
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+.shell.solo{grid-template-columns:minmax(0,1fr)}
+aside{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
 .brand{font-weight:800;font-size:17px;padding:0 8px 14px;letter-spacing:-.01em}
 .brand i{color:var(--gold);font-style:normal}
-.prof{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:10px;padding:10px;}
+.prof{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:10px;padding:10px}
 .prof:hover{background:var(--panel2)}
 .prof.on{background:var(--panel2);border-color:var(--line)}
 .prof b{display:block;font-weight:600}
 .prof small{color:var(--mute)}
 .btn{background:var(--gold);color:#1b1405;border:0;border-radius:9px;padding:9px 14px;font-weight:700}
+.btn:hover{filter:brightness(1.08)}
 .btn.ghost{background:none;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--panel2);filter:none}
 .btn.sm{padding:5px 9px;font-size:12px}
 .btn.danger{background:none;color:var(--loss);border:1px solid var(--line)}
-main{padding:24px clamp(14px,3vw,34px);max-width:1180px;width:100%}
+main{padding:clamp(12px,2.2vw,32px);width:100%;max-width:1760px;margin:0 auto;min-width:0}
 .top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
-h2{font-size:22px;font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(18px,2.2vw,24px);font-weight:800;letter-spacing:-.01em}
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .nav{display:flex;align-items:center;gap:8px}
-.nav b{min-width:150px;text-align:center;font-size:16px;text-transform:capitalize}
+.nav b{min-width:clamp(110px,14vw,160px);text-align:center;font-size:16px;text-transform:capitalize}
 .sync{font-size:12px;color:var(--mute)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.badge{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;border:1px solid var(--line);color:var(--mute);margin-left:8px;vertical-align:middle}
+.badge.ok{color:var(--gain);border-color:rgba(52,211,153,.4)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0}
 .card .k{color:var(--mute);font-size:12.5px;margin-bottom:4px}
-.card .v{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.card .v{font-size:clamp(19px,2vw,26px);font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .card .s{font-size:12px;color:var(--mute);margin-top:2px}
 .wr{display:flex;align-items:center;gap:12px}
-.cal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto}
-.grid{display:grid;grid-template-columns:repeat(7,minmax(74px,1fr)) minmax(96px,1.1fr);gap:6px;min-width:640px}
-.dow{color:var(--mute);font-size:12.5px;padding:4px 8px;font-weight:600}
-.day{min-height:92px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);padding:7px 8px;text-align:left;display:flex;flex-direction:column;gap:2px;position:relative}
-.day.out{opacity:.28;pointer-events:none}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+@media(min-width:1180px){.layout{grid-template-columns:minmax(0,1fr) 330px}}
+.cal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:clamp(8px,1.2vw,14px)}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) minmax(0,1.15fr);gap:clamp(3px,.6vw,7px)}
+.dow{color:var(--mute);font-size:12.5px;padding:4px 6px;font-weight:600}
+.day{min-height:clamp(62px,8.5vw,118px);border-radius:10px;border:1px solid var(--line);background:var(--panel2);padding:clamp(4px,.7vw,8px);text-align:left;display:flex;flex-direction:column;gap:2px;position:relative;min-width:0;overflow:hidden}
+.day.out{opacity:.25;pointer-events:none;background:transparent}
 .day.today{box-shadow:inset 0 0 0 2px var(--gold)}
-.day:hover{border-color:var(--mute)}
+.day:hover{border-color:var(--mute);transform:translateY(-1px)}
 .day .n{font-size:12px;color:var(--mute);font-weight:600}
-.day .p{font-size:16px;font-weight:800;margin-top:auto}
-.day .m{font-size:11.5px;color:var(--mute)}
-.week{border-radius:10px;border:1px dashed var(--line);padding:7px 8px;display:flex;flex-direction:column;justify-content:center;gap:2px}
-.week .p{font-weight:800;font-size:15px}
+.day .p{font-size:clamp(11px,1.45vw,17px);font-weight:800;margin-top:auto;white-space:nowrap}
+.day .m{font-size:clamp(10px,.95vw,11.5px);color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.week{border-radius:10px;border:1px dashed var(--line);padding:clamp(4px,.7vw,8px);display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0}
+.week .p{font-weight:800;font-size:clamp(12px,1.3vw,15px);white-space:nowrap}
 .week .m,.week .n{font-size:11.5px;color:var(--mute)}
+.wlist{display:none;margin-top:10px;gap:8px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+.wlist .week{background:var(--panel2);border-style:solid}
 .eq{margin-top:16px}
-.eq svg{width:100%;height:110px;display:block}
+.eq svg{width:100%;height:clamp(100px,14vw,170px);display:block}
+.eqm{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--mute);margin-top:6px}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.side h4{font-size:13px;font-weight:700;margin-bottom:10px}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}
+.kv:last-child{border:0}
+.bar{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:12.5px;padding:3px 0}
+.bar .t{height:8px;border-radius:5px;background:var(--bg);overflow:hidden;position:relative}
+.bar .t i{position:absolute;top:0;bottom:0;border-radius:5px}
+.bar span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .overlay{position:fixed;inset:0;background:rgba(5,8,12,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
 .overlay.on{display:flex}
 .modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;width:min(480px,100%);max-height:90vh;overflow:auto}
 .modal h3{font-size:18px;margin-bottom:12px}
+.modal p{font-size:13px;color:var(--mute);line-height:1.5}
 label{display:block;font-size:12.5px;color:var(--mute);margin:10px 0 4px}
 input,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -72,13 +91,27 @@ input,select{width:100%;background:var(--bg);border:1px solid var(--line);border
 .tabs button.on{background:var(--panel2);color:var(--text)}
 .err{color:var(--loss);font-size:13px;margin-top:10px;min-height:18px}
 .empty{padding:40px 10px;text-align:center;color:var(--mute)}
-@media(max-width:820px){.shell{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line);flex-direction:row;overflow-x:auto;align-items:center}.brand{padding:0 8px}.prof{min-width:150px}}
-@media(prefers-reduced-motion:no-preference){.overlay.on .modal{animation:pop .15s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}}}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--panel2);border:1px solid var(--line);padding:10px 16px;border-radius:10px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:20;max-width:90vw}
+#toast.on{opacity:1;transform:translateX(-50%)}
+@media(max-width:820px){.shell{grid-template-columns:minmax(0,1fr)}aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);flex-direction:row;overflow-x:auto;align-items:center}.brand{padding:0 8px;white-space:nowrap}.prof{min-width:150px}aside .btn{white-space:nowrap}}
+@media(max-width:720px){
+  .grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .week.hd,.dow.wkh,.grid .week{display:none}
+  .day{min-height:58px;padding:4px}
+  .day .m{display:none}
+  .day .p{font-size:10.5px}
+  .dow{padding:2px;text-align:center;font-size:11px}
+  .wlist{display:grid}
+  .nav b{min-width:0;flex:1}
+  .nav{width:100%}
+}
+@media(prefers-reduced-motion:no-preference){.overlay.on .modal{animation:pop .15s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}}.day{transition:.12s}}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div class="overlay" id="ov"><div class="modal" id="md"></div></div>
+<div id="toast" role="status"></div>
 
 <script>
 /* ===== Estado ===== */
@@ -87,14 +120,17 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const pad=n=>String(n).padStart(2,'0');
 const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
-const S={cfg:store.get('cfg',{}),data:{profiles:[],trades:[]},sha:null,admin:false,uid:sessionStorage.getItem('uid'),view:null,y:new Date().getFullYear(),m:new Date().getMonth(),tab:'u',err:'',sync:''};
+const S={cfg:store.get('cfg',{}),ut:store.get('ut',''),data:{profiles:[],trades:[]},files:{},sha:null,admin:false,uid:sessionStorage.getItem('uid'),view:null,y:new Date().getFullYear(),m:new Date().getMonth(),tab:'u',err:'',sync:''};
 if(!S.cfg.owner&&location.hostname.endsWith('.github.io')){S.cfg.owner=location.hostname.split('.')[0];S.cfg.repo=location.pathname.split('/')[1]||location.hostname}
+const canEdit=()=>S.admin||(!!S.uid&&!!S.ut);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)}
 
 /* ===== GitHub como base de datos =====
    Rama "data" del repo: db/profiles.json + db/trades-<perfil>.json (un archivo por perfil, un commit por cambio) */
 const BR='data';
 const R=()=>`https://api.github.com/repos/${S.cfg.owner}/${S.cfg.repo}`;
-const hdr=()=>S.cfg.token?{Authorization:'Bearer '+S.cfg.token,Accept:'application/vnd.github+json'}:{Accept:'application/vnd.github+json'};
+const tok=()=>S.cfg.token||S.ut||'';
+const hdr=()=>tok()?{Authorization:'Bearer '+tok(),Accept:'application/vnd.github+json'}:{Accept:'application/vnd.github+json'};
 const b64=s=>btoa(unescape(encodeURIComponent(s)));
 const unb64=s=>decodeURIComponent(escape(atob(s)));
 const errMsg=async r=>r.status+' '+((await r.json().catch(()=>({}))).message||'')+(r.status===403||r.status===404?' (revisa que el token tenga Contents: Read and write en este repo)':'');
@@ -127,7 +163,7 @@ async function load(){
 }
 let timer,busy=false,again=false;
 function save(){
-  if(!S.admin)return;
+  if(!canEdit())return;
   S.sync='Guardando en GitHub…';paintSync();clearTimeout(timer);timer=setTimeout(doSave,700);
 }
 async function put(path,obj,f,retry=true){
@@ -142,13 +178,19 @@ async function doSave(){
   if(busy){again=true;return}busy=true;
   try{
     if(S.loadErr)throw new Error('los datos no se cargaron bien; recarga la página antes de editar');
-    const want={'db/profiles.json':S.data.profiles};
-    S.data.profiles.forEach(p=>want['db/trades-'+p.id+'.json']=S.data.trades.filter(t=>t.p===p.id));
+    const want={};
+    if(S.admin){
+      want['db/profiles.json']=S.data.profiles;
+      S.data.profiles.forEach(p=>want['db/trades-'+p.id+'.json']=S.data.trades.filter(t=>t.p===p.id));
+    }else if(S.uid){
+      /* el trader solo escribe SU archivo de operaciones */
+      want['db/trades-'+S.uid+'.json']=S.data.trades.filter(t=>t.p===S.uid);
+    }
     for(const[path,obj]of Object.entries(want)){
       if(S.files[path]?.snap===JSON.stringify(obj))continue;
       await put(path,obj,S.files[path]);
     }
-    for(const path of Object.keys(S.files))if(!(path in want)){
+    if(S.admin)for(const path of Object.keys(S.files))if(!(path in want)){
       const r=await fetch(`${R()}/contents/${path}`,{method:'DELETE',headers:hdr(),body:JSON.stringify({message:'db: borrar '+path,sha:S.files[path].sha,branch:BR})});
       if(!r.ok&&r.status!==404)throw new Error(await errMsg(r));
       delete S.files[path];
@@ -162,10 +204,11 @@ const paintSync=()=>{const e=$('#sync');if(e){e.textContent=S.sync;e.style.color
 
 /* ===== Auth ===== */
 async function hash(id,pin){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(id+':'+pin));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-async function checkAdmin(){
-  if(!S.cfg.token||!S.cfg.owner)return false;
-  try{const r=await fetch(`https://api.github.com/repos/${S.cfg.owner}/${S.cfg.repo}`,{headers:hdr()});return r.ok&&!!(await r.json()).permissions?.push}catch{return false}
+async function canPush(token,owner=S.cfg.owner,repo=S.cfg.repo){
+  if(!token||!owner||!repo)return false;
+  try{const r=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}});return r.ok&&!!(await r.json()).permissions?.push}catch{return false}
 }
+const checkAdmin=()=>canPush(S.cfg.token);
 
 /* ===== Cálculos ===== */
 function stats(l){
@@ -206,13 +249,18 @@ function sidebar(){
   <button class="btn ghost" data-a="newProf" style="margin:8px 0 0">+ Nuevo perfil</button>
   <button class="btn ghost" data-a="logout" style="margin-top:auto">Cerrar sesión</button></aside>`;
 }
+function bars(items){
+  const mx=Math.max(1,...items.map(i=>Math.abs(i[1])));
+  return items.map(([l,v])=>`<div class="bar"><span title="${esc(l)}">${esc(l)}</span><span class="t"><i style="${v>=0?`left:50%;width:${Math.abs(v)/mx*50}%;background:var(--gain)`:`right:50%;width:${Math.abs(v)/mx*50}%;background:var(--loss)`}"></i></span><b class="${cls(v)}">${money(v)}</b></div>`).join('')||'<div class="mute" style="font-size:12.5px">Sin datos.</div>';
+}
 function dash(prof){
-  const ms=`${S.y}-${pad(S.m+1)}`,all=mine(),mt=all.filter(t=>t.d.startsWith(ms)),st=stats(mt);
+  const ms=`${S.y}-${pad(S.m+1)}`,all=mine(),mt=all.filter(t=>t.d.startsWith(ms)),st=stats(mt),tot=stats(all);
   const byDay={};mt.forEach(t=>(byDay[t.d]??=[]).push(t));
   const maxAbs=Math.max(1,...Object.values(byDay).map(l=>Math.abs(stats(l).net)));
   const first=new Date(S.y,S.m,1),off=(first.getDay()+6)%7,dim=new Date(S.y,S.m+1,0).getDate(),rows=Math.ceil((off+dim)/7);
   const td=new Date(),tk=dkey(td.getFullYear(),td.getMonth(),td.getDate());
-  let g=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom','Semana'].map(d=>`<div class="dow">${d}</div>`).join('');
+  let g=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(d=>`<div class="dow">${d}</div>`).join('')+'<div class="dow wkh">Semana</div>';
+  const weeks=[];
   for(let r=0;r<rows;r++){
     let wk=[];
     for(let c=0;c<7;c++){
@@ -222,40 +270,74 @@ function dash(prof){
       const bg=l.length?`background:${s.net>0?`rgba(52,211,153,${.1+.3*Math.abs(s.net)/maxAbs})`:s.net<0?`rgba(251,107,123,${.1+.3*Math.abs(s.net)/maxAbs})`:'rgba(133,147,163,.15)'}`:'';
       g+=`<button class="day ${k===tk?'today':''}" style="${bg}" data-a="day" data-d="${k}" aria-label="Día ${d}"><span class="n">${d}</span>${l.length?`<span class="p ${cls(s.net)}">${money(s.net)}</span><span class="m">${s.n} ops · ${pct(s.wr)}</span>`:''}</button>`;
     }
-    const w=stats(wk);
+    const w=stats(wk);weeks.push(w);
     g+=`<div class="week"><span class="n">Semana ${r+1}</span>${w.n?`<span class="p ${cls(w.net)}">${money(w.net)}</span><span class="m">${w.n} ops · ${pct(w.wr)}</span>`:'<span class="m">—</span>'}</div>`;
   }
-  const days=Object.entries(byDay).sort(),gd=days.filter(([,l])=>stats(l).net>0).length,rd=days.filter(([,l])=>stats(l).net<0).length;
-  const best=days.length?Math.max(...days.map(([,l])=>stats(l).net)):0;
-  const circ=2*Math.PI*30,dash=circ*(st.wr||0)/100;
-  return`<div class="top"><div><h2>${esc(prof.name)}</h2><span class="sync" id="sync"></span></div>
-  <div class="nav"><button class="btn ghost sm" data-a="prev" aria-label="Mes anterior">‹</button><b>${MESES[S.m]} ${S.y}</b><button class="btn ghost sm" data-a="next" aria-label="Mes siguiente">›</button><button class="btn ghost sm" data-a="today">Hoy</button>${S.admin?'':'<button class="btn ghost sm" data-a="logout">Salir</button>'}</div></div>
+  const wl=weeks.map((w,i)=>`<div class="week"><span class="n">Semana ${i+1}</span>${w.n?`<span class="p ${cls(w.net)}">${money(w.net)}</span><span class="m">${w.n} ops · ${pct(w.wr)}</span>`:'<span class="m">—</span>'}</div>`).join('');
+  const days=Object.entries(byDay).sort(),dn=days.map(([,l])=>stats(l).net),gd=dn.filter(n=>n>0).length,rd=dn.filter(n=>n<0).length;
+  const best=dn.length?Math.max(...dn):0,worst=dn.length?Math.min(...dn):0;
+  let c=0,peak=0,dd=0,run=0,streak=0;
+  dn.forEach(n=>{c+=n;peak=Math.max(peak,c);dd=Math.max(dd,peak-c);run=n>0?run+1:0;streak=Math.max(streak,run)});
+  const circ=2*Math.PI*30,dsh=circ*(st.wr||0)/100;
+  const asset={};mt.forEach(t=>{const k=t.s||'—';asset[k]=(asset[k]||0)+t.pnl});
+  const assets=Object.entries(asset).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,6);
+  const dw=Array(7).fill(0);mt.forEach(t=>{dw[(new Date(t.d+'T00:00').getDay()+6)%7]+=t.pnl});
+  const lo=stats(mt.filter(t=>t.side!=='S')),sh=stats(mt.filter(t=>t.side==='S'));
+  const ro=canEdit();
+  return`<div class="top"><div><h2>${esc(prof.name)}${!S.admin?`<span class="badge ${ro?'ok':''}">${ro?'Edición activa':'Solo lectura'}</span>`:''}</h2><span class="sync" id="sync"></span></div>
+  <div class="tools"><div class="nav"><button class="btn ghost sm" data-a="prev" aria-label="Mes anterior">‹</button><b>${MESES[S.m]} ${S.y}</b><button class="btn ghost sm" data-a="next" aria-label="Mes siguiente">›</button><button class="btn ghost sm" data-a="today">Hoy</button></div>
+  <button class="btn ghost sm" data-a="csv">Exportar CSV</button>${S.admin?'':`<button class="btn ghost sm" data-a="utok">${S.ut?'Guardado':'Activar guardado'}</button><button class="btn ghost sm" data-a="logout">Salir</button>`}</div></div>
   <div class="stats">
-   <div class="card"><div class="k">P&amp;L neto del mes</div><div class="v ${cls(st.net)}">${money(st.net)}</div><div class="s">Mejor día ${money(best)}</div></div>
-   <div class="card wr"><svg width="68" height="68" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--gain)" stroke-width="8" stroke-linecap="round" stroke-dasharray="${dash} ${circ}" transform="rotate(-90 38 38)"/></svg><div><div class="k">Win rate</div><div class="v">${pct(st.wr)}</div><div class="s">${st.w}G · ${st.l}P · ${st.be}BE</div></div></div>
+   <div class="card"><div class="k">P&amp;L neto del mes</div><div class="v ${cls(st.net)}">${money(st.net)}</div><div class="s">Acumulado total ${money(tot.net)}</div></div>
+   <div class="card wr"><svg width="68" height="68" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--gain)" stroke-width="8" stroke-linecap="round" stroke-dasharray="${dsh} ${circ}" transform="rotate(-90 38 38)"/></svg><div><div class="k">Win rate</div><div class="v">${pct(st.wr)}</div><div class="s">${st.w}G · ${st.l}P · ${st.be}BE</div></div></div>
    <div class="card"><div class="k">Profit factor</div><div class="v">${st.pf==null?'—':st.pf===Infinity?'∞':st.pf.toFixed(2)}</div><div class="s">${st.n} operaciones</div></div>
    <div class="card"><div class="k">Promedio ganada / perdida</div><div class="v"><span class="gain">${money(st.aw,false)}</span> <span class="mute">/</span> <span class="loss">${money(st.al,false)}</span></div><div class="s">Días verdes ${gd} · rojos ${rd}</div></div>
   </div>
-  <div class="cal"><div class="grid">${g}</div></div>
-  <div class="card eq"><div class="k">Curva de capital del mes</div>${curve(days)}</div>`;
+  <div class="layout"><div>
+   <div class="cal"><div class="grid">${g}</div><div class="wlist">${wl}</div></div>
+   <div class="card eq"><div class="k">Curva de capital del mes</div>${curve(days)}</div>
+  </div>
+  <div class="side">
+   <div class="card"><h4>Métricas del mes</h4>
+    <div class="kv"><span class="mute">Expectativa por operación</span><b class="${cls(st.n?st.net/st.n:0)}">${st.n?money(st.net/st.n):'—'}</b></div>
+    <div class="kv"><span class="mute">Mejor día</span><b class="gain">${money(best)}</b></div>
+    <div class="kv"><span class="mute">Peor día</span><b class="loss">${money(worst)}</b></div>
+    <div class="kv"><span class="mute">Drawdown máximo</span><b class="loss">${dd?'-'+money(dd,false):'$0'}</b></div>
+    <div class="kv"><span class="mute">Racha de días verdes</span><b>${streak}</b></div></div>
+   <div class="card"><h4>Por activo</h4>${bars(assets)}</div>
+   <div class="card"><h4>Por día de la semana</h4>${bars(['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map((d,i)=>[d,dw[i]]).filter((x,i)=>i<5||x[1]))}</div>
+   <div class="card"><h4>Long vs Short</h4>
+    <div class="kv"><span>Long · ${lo.n} ops · WR ${pct(lo.wr)}</span><b class="${cls(lo.net)}">${money(lo.net)}</b></div>
+    <div class="kv"><span>Short · ${sh.n} ops · WR ${pct(sh.wr)}</span><b class="${cls(sh.net)}">${money(sh.net)}</b></div></div>
+  </div></div>`;
 }
 function curve(days){
   if(!days.length)return'<div class="empty">Sin operaciones este mes.</div>';
   let c=0;const pts=[0,...days.map(([,l])=>c+=stats(l).net)],mx=Math.max(...pts),mn=Math.min(...pts),rg=(mx-mn)||1;
   const xy=pts.map((v,i)=>`${(i/(pts.length-1||1))*300},${70-((v-mn)/rg)*60}`);
-  const up=pts[pts.length-1]>=0,col=up?'var(--gain)':'var(--loss)';
-  return`<svg viewBox="0 0 300 80" preserveAspectRatio="none"><polygon points="0,80 ${xy.join(' ')} 300,80" fill="${col}" opacity=".12"/><polyline points="${xy.join(' ')}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
+  const fin=pts[pts.length-1],col=fin>=0?'var(--gain)':'var(--loss)';
+  return`<svg viewBox="0 0 300 80" preserveAspectRatio="none"><polygon points="0,80 ${xy.join(' ')} 300,80" fill="${col}" opacity=".12"/><polyline points="${xy.join(' ')}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+  <div class="eqm"><span>Máx ${money(mx)}</span><span>Mín ${money(mn)}</span><span>Final <b class="${cls(fin)}">${money(fin)}</b></span></div>`;
 }
 
 /* ===== Modales ===== */
-function modal(h){$('#md').innerHTML=h;$('#ov').classList.add('on')}
+function modal(h){$('#md').innerHTML=h;$('#ov').classList.add('on');setTimeout(()=>$('#md input')?.focus(),30)}
 function closeM(){$('#ov').classList.remove('on')}
 function dayModal(k){
-  const l=mine().filter(t=>t.d===k),s=stats(l),[y,m,d]=k.split('-');
+  const l=mine().filter(t=>t.d===k),s=stats(l),[y,m,d]=k.split('-'),ed=canEdit();
   modal(`<h3>${+d} de ${MESES[+m-1]} ${y} <span class="${cls(s.net)}" style="float:right">${money(s.net)}</span></h3>
-  ${l.map(t=>`<div class="trade"><div><b>${esc(t.s||'—')}</b> <span class="mute">${t.side==='S'?'Short':'Long'}</span>${t.n?`<small>${esc(t.n)}</small>`:''}</div><div><b class="${cls(t.pnl)}">${money(t.pnl)}</b>${S.admin?` <button class="btn danger sm" data-a="delT" data-id="${t.id}" data-d="${k}">Borrar</button>`:''}</div></div>`).join('')||'<div class="empty">Sin operaciones este día.</div>'}
-  ${S.admin?`<label>Activo</label><input id="ts" placeholder="EURUSD, NQ, BTC…"><div class="row"><div><label>Dirección</label><select id="tside"><option value="L">Long</option><option value="S">Short</option></select></div><div><label>Resultado ($)</label><input id="tp" type="number" step="any" placeholder="-120 o 250"></div></div><label>Nota</label><input id="tn" placeholder="Setup, emoción, error…">
-  <div style="display:flex;gap:8px;margin-top:14px"><button class="btn" data-a="addT" data-d="${k}">Agregar operación</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`:`<div style="margin-top:14px"><button class="btn ghost" data-a="closeM">Cerrar</button></div>`}`);
+  ${l.map(t=>`<div class="trade"><div><b>${esc(t.s||'—')}</b> <span class="mute">${t.side==='S'?'Short':'Long'}</span>${t.n?`<small>${esc(t.n)}</small>`:''}</div><div><b class="${cls(t.pnl)}">${money(t.pnl)}</b>${ed?` <button class="btn danger sm" data-a="delT" data-id="${t.id}" data-d="${k}">Borrar</button>`:''}</div></div>`).join('')||'<div class="empty">Sin operaciones este día.</div>'}
+  ${ed?`<label>Activo</label><input id="ts" placeholder="EURUSD, NQ, BTC…"><div class="row"><div><label>Dirección</label><select id="tside"><option value="L">Long</option><option value="S">Short</option></select></div><div><label>Resultado ($)</label><input id="tp" type="number" step="any" placeholder="-120 o 250"></div></div><label>Nota</label><input id="tn" placeholder="Setup, emoción, error…">
+  <div style="display:flex;gap:8px;margin-top:14px"><button class="btn" data-a="addT" data-d="${k}">Agregar operación</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`
+  :`<p style="margin-top:12px">Para agregar operaciones activa el guardado con el botón “Activar guardado”.</p><div style="margin-top:14px;display:flex;gap:8px"><button class="btn" data-a="utok">Activar guardado</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`}`);
+}
+function utokModal(){
+  modal(`<h3>Guardado de tus operaciones</h3>
+  ${S.ut?`<p>El guardado está activo en este dispositivo. Tus operaciones se envían a GitHub automáticamente.</p>
+  <div style="display:flex;gap:8px;margin-top:16px"><button class="btn danger" data-a="utOff">Desconectar</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`
+  :`<p>Pega el token de GitHub que te dio el administrador (permiso Contents: lectura y escritura). Se guarda solo en este dispositivo y solo escribirá en tu propio archivo de operaciones.</p>
+  <label>Token de GitHub</label><input id="ut" type="password" autocomplete="off"><div class="err" id="ue"></div>
+  <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-a="utOn">Activar</button><button class="btn ghost" data-a="closeM">Cancelar</button></div>`}`);
 }
 function profModal(){
   modal(`<h3>Nuevo perfil</h3><label>Nombre del trader</label><input id="pn"><label>PIN de acceso (mínimo 4 dígitos)</label><input id="pp" type="password" inputmode="numeric"><div class="err" id="pe"></div>
@@ -285,6 +367,19 @@ const A={
   pick:d=>{S.view=d.id;render()},
   day:d=>dayModal(d.d),
   closeM,
+  utok:utokModal,
+  async utOn(){
+    const t=$('#ut').value.trim();
+    if(!(await canPush(t))){$('#ue').textContent='Token inválido o sin permiso de escritura en este repositorio.';return}
+    S.ut=t;store.set('ut',t);closeM();render();toast('Guardado activado ✓');
+  },
+  utOff(){S.ut='';store.set('ut','');closeM();render();toast('Guardado desconectado')},
+  csv(){
+    const rows=[['fecha','activo','direccion','resultado','nota'],...mine().sort((a,b)=>a.d.localeCompare(b.d)).map(t=>[t.d,t.s,t.side==='S'?'Short':'Long',t.pnl,t.n])];
+    const csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+    a.download='operaciones-'+(S.data.profiles.find(p=>p.id===S.view)?.name||'trader')+'.csv';a.click();URL.revokeObjectURL(a.href);
+  },
   newProf:profModal,
   async saveProf(){
     const n=$('#pn').value.trim(),p=$('#pp').value;
@@ -292,24 +387,30 @@ const A={
     const id='p'+Date.now().toString(36);
     S.data.profiles.push({id,name:n,h:await hash(id,p)});S.view=id;save();closeM();render();
   },
-  async chpin(d){const p=prompt('Nuevo PIN (mínimo 4 dígitos):');if(!p||p.length<4)return;S.data.profiles.find(x=>x.id===d.id).h=await hash(d.id,p);save();alert('PIN actualizado.')},
+  async chpin(d){const p=prompt('Nuevo PIN (mínimo 4 dígitos):');if(!p||p.length<4)return;S.data.profiles.find(x=>x.id===d.id).h=await hash(d.id,p);save();toast('PIN actualizado')},
   delProf(d){
     if(!confirm('¿Eliminar este perfil y todas sus operaciones?'))return;
     S.data.profiles=S.data.profiles.filter(p=>p.id!==d.id);S.data.trades=S.data.trades.filter(t=>t.p!==d.id);
     S.view=S.data.profiles[0]?.id||null;save();closeM();render();
   },
   addT(d){
+    if(!canEdit())return;
     const pnl=parseFloat($('#tp').value);if(isNaN(pnl))return $('#tp').focus();
     S.data.trades.push({id:'t'+Date.now().toString(36),p:S.view,d:d.d,s:$('#ts').value.trim().toUpperCase(),side:$('#tside').value,pnl,n:$('#tn').value.trim()});
     save();render();dayModal(d.d);
   },
-  delT(d){S.data.trades=S.data.trades.filter(t=>t.id!==d.id);save();render();dayModal(d.d)}
+  delT(d){if(!canEdit())return;S.data.trades=S.data.trades.filter(t=>t.id!==d.id);save();render();dayModal(d.d)}
 };
 document.addEventListener('click',e=>{
   if(e.target.id==='ov')return closeM();
   const a=e.target.closest('[data-a]');if(a)A[a.dataset.a]?.(a.dataset);
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();if(e.key==='Enter'&&e.target.id==='lpin')A.loginU()});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeM();
+  if(e.key==='Enter'&&e.target.id==='lpin')A.loginU();
+  if(e.key==='Enter'&&e.target.id==='ut')A.utOn();
+  if(e.key==='Enter'&&e.target.id==='tp')document.querySelector('[data-a=addT]')?.click();
+});
 
 /* ===== Inicio ===== */
 (async()=>{

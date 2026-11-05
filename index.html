@@ -7,9 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0c1016;--panel:#131a22;--panel2:#18212b;--line:#222c38;--text:#e7ecf2;--mute:#8593a3;--gain:#34d399;--loss:#fb6b7b;--gold:#e5b567}
+:root{--bg:#0a0f24;--panel:#131b3a;--panel2:#1a2450;--line:#2d3a73;--text:#f1f4ff;--mute:#a3afdb;--gain:#2ee6a6;--loss:#ff5c7a;--gold:#ffb84d;--accent:#7c6cff;--accent2:#22d3ee}
 *{box-sizing:border-box;margin:0}
-html,body{background:var(--bg);color:var(--text);font:14px/1.45 Manrope,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+html,body{background:radial-gradient(900px 520px at 6% -5%,rgba(124,108,255,.32),transparent 60%),radial-gradient(800px 500px at 100% 0%,rgba(34,211,238,.20),transparent 55%),radial-gradient(700px 500px at 50% 110%,rgba(255,92,122,.12),transparent 60%),var(--bg);background-attachment:fixed;color:var(--text);font:14px/1.45 Manrope,system-ui,sans-serif;font-variant-numeric:tabular-nums}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
@@ -18,13 +18,14 @@ button{cursor:pointer}
 .shell.solo{grid-template-columns:minmax(0,1fr)}
 aside{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
 .brand{font-weight:800;font-size:17px;padding:0 8px 14px;letter-spacing:-.01em}
-.brand i{color:var(--gold);font-style:normal}
+.brand i{background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:normal}
+.prof.on{background:linear-gradient(135deg,rgba(124,108,255,.28),rgba(34,211,238,.12))!important;border-color:var(--accent)!important}
 .prof{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:10px;padding:10px}
 .prof:hover{background:var(--panel2)}
 .prof.on{background:var(--panel2);border-color:var(--line)}
 .prof b{display:block;font-weight:600}
 .prof small{color:var(--mute)}
-.btn{background:var(--gold);color:#1b1405;border:0;border-radius:9px;padding:9px 14px;font-weight:700}
+.btn{background:linear-gradient(135deg,#ffb84d,#ff7a59);color:#2a1208;border:0;border-radius:9px;padding:9px 14px;font-weight:700;box-shadow:0 4px 14px rgba(255,122,89,.3)}
 .btn:hover{filter:brightness(1.08)}
 .btn.ghost{background:none;color:var(--text);border:1px solid var(--line)}
 .btn.ghost:hover{background:var(--panel2);filter:none}
@@ -40,7 +41,13 @@ h2{font-size:clamp(18px,2.2vw,24px);font-weight:800;letter-spacing:-.01em}
 .badge{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;border:1px solid var(--line);color:var(--mute);margin-left:8px;vertical-align:middle}
 .badge.ok{color:var(--gain);border-color:rgba(52,211,153,.4)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-bottom:16px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0}
+.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.stats .card{border-top:3px solid var(--accent)}
+.stats .card:nth-child(1){border-top-color:var(--gain)}
+.stats .card:nth-child(2){border-top-color:var(--accent2)}
+.stats .card:nth-child(3){border-top-color:var(--accent)}
+.stats .card:nth-child(4){border-top-color:var(--gold)}
+.side .card h4{color:var(--accent2)}
 .card .k{color:var(--mute);font-size:12.5px;margin-bottom:4px}
 .card .v{font-size:clamp(19px,2vw,26px);font-weight:800;letter-spacing:-.02em;white-space:nowrap}
 .card .s{font-size:12px;color:var(--mute);margin-top:2px}
@@ -53,7 +60,7 @@ h2{font-size:clamp(18px,2.2vw,24px);font-weight:800;letter-spacing:-.01em}
 .day{min-height:clamp(62px,8.5vw,118px);border-radius:10px;border:1px solid var(--line);background:var(--panel2);padding:clamp(4px,.7vw,8px);text-align:left;display:flex;flex-direction:column;gap:2px;position:relative;min-width:0;overflow:hidden}
 .day.out{opacity:.25;pointer-events:none;background:transparent}
 .day.today{box-shadow:inset 0 0 0 2px var(--gold)}
-.day:hover{border-color:var(--mute);transform:translateY(-1px)}
+.day:hover{border-color:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 16px rgba(34,211,238,.18)}
 .day .n{font-size:12px;color:var(--mute);font-weight:600}
 .day .p{font-size:clamp(11px,1.45vw,17px);font-weight:800;margin-top:auto;white-space:nowrap}
 .day .m{font-size:clamp(10px,.95vw,11.5px);color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -208,6 +215,15 @@ async function canPush(token,owner=S.cfg.owner,repo=S.cfg.repo){
   if(!token||!owner||!repo)return false;
   try{const r=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}});return r.ok&&!!(await r.json()).permissions?.push}catch{return false}
 }
+/* Admin = token con permiso de escritura + clave de administrador (la clave nunca se guarda, solo su hash).
+   Para generar el hash: abre la página, pestaña Administrador, escribe tu clave y pulsa "Generar código de clave". */
+const ADMIN_SALT='diario-trading-v1';
+const ADMIN_HASH='';
+async function pbk(pw){
+  const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+  const b=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(ADMIN_SALT),iterations:300000,hash:'SHA-256'},k,256);
+  return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
 const checkAdmin=()=>canPush(S.cfg.token);
 
 /* ===== Cálculos ===== */
@@ -239,7 +255,7 @@ function loginView(){
   ${t==='u'?`<label>Perfil</label><select id="lp">${S.data.profiles.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')||'<option value="">Sin perfiles</option>'}</select>
   <label>PIN</label><input id="lpin" type="password" inputmode="numeric" autocomplete="current-password"><div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginU">Entrar</button>`
   :`<label>Usuario o organización de GitHub</label><input id="lo" value="${esc(c.owner||'')}"><label>Repositorio</label><input id="lr" value="${esc(c.repo||'')}">
-  <label>Token de GitHub (permiso Contents: lectura y escritura)</label><input id="lt" type="password" autocomplete="off"><div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginA">Entrar como administrador</button>`}
+  <label>Token de GitHub (permiso Contents: lectura y escritura)</label><input id="lt" type="password" autocomplete="off"><label>Clave de administrador</label><input id="la" type="password" autocomplete="off">${ADMIN_HASH?'':'<p class="mute" style="font-size:12px;margin-top:8px">Aún no hay clave configurada: escribe una (mínimo 8 caracteres) y genera el código para pegarlo en el archivo.</p>'}<div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="${ADMIN_HASH?'loginA':'genHash'}">${ADMIN_HASH?'Entrar como administrador':'Generar código de clave'}</button><div id="gh"></div>`}
   </div></div>`;
 }
 function sidebar(){
@@ -267,7 +283,7 @@ function dash(prof){
       const d=r*7+c-off+1;
       if(d<1||d>dim){g+='<div class="day out"></div>';continue}
       const k=dkey(S.y,S.m,d),l=byDay[k]||[],s=stats(l);wk.push(...l);
-      const bg=l.length?`background:${s.net>0?`rgba(52,211,153,${.1+.3*Math.abs(s.net)/maxAbs})`:s.net<0?`rgba(251,107,123,${.1+.3*Math.abs(s.net)/maxAbs})`:'rgba(133,147,163,.15)'}`:'';
+      const bg=l.length?`background:${s.net>0?`rgba(46,230,166,${.18+.42*Math.abs(s.net)/maxAbs})`:s.net<0?`rgba(255,92,122,${.18+.42*Math.abs(s.net)/maxAbs})`:'rgba(133,147,163,.15)'}`:'';
       g+=`<button class="day ${k===tk?'today':''}" style="${bg}" data-a="day" data-d="${k}" aria-label="Día ${d}"><span class="n">${d}</span>${l.length?`<span class="p ${cls(s.net)}">${money(s.net)}</span><span class="m">${s.n} ops · ${pct(s.wr)}</span>`:''}</button>`;
     }
     const w=stats(wk);weeks.push(w);
@@ -354,13 +370,20 @@ const A={
     S.uid=id;sessionStorage.setItem('uid',id);S.err='';await loadTrades([id]).catch(()=>{});render();
   },
   async loginA(){
+    const pw=$('#la').value;
     S.cfg={owner:$('#lo').value.trim(),repo:$('#lr').value.trim(),token:$('#lt').value.trim()};
-    if(!(await checkAdmin())){S.err='Token inválido o sin permiso de escritura en ese repositorio.';S.cfg.token='';return render()}
-    store.set('cfg',S.cfg);S.admin=true;
+    if(!ADMIN_HASH||(await pbk(pw))!==ADMIN_HASH||!(await checkAdmin())){S.err='Acceso denegado: revisa el token y la clave de administrador.';S.cfg.token='';return render()}
+    store.set('cfg',S.cfg);S.admin=true;sessionStorage.setItem('adm','1');
     try{await ensureBranch()}catch(e){S.admin=false;S.cfg.token='';S.err='No se pudo preparar la base de datos: '+e.message;return render()}
     S.err='';await load();render();
   },
-  logout(){sessionStorage.removeItem('uid');S.uid=null;S.admin=false;S.view=null;S.cfg.token='';store.set('cfg',S.cfg);load().then(render)},
+  async genHash(){
+    const p=$('#la').value;
+    if(p.length<8){$('#gh').innerHTML='<div class="err">Usa al menos 8 caracteres.</div>';return}
+    const h=await pbk(p);
+    $('#gh').innerHTML=`<p style="margin-top:12px;font-size:12.5px;color:var(--mute)">Copia esta línea y reemplaza la línea <b>const ADMIN_HASH='';</b> en el archivo index.html:</p><input readonly onclick="this.select()" value="const ADMIN_HASH='${h}';">`;
+  },
+  logout(){sessionStorage.removeItem('adm');sessionStorage.removeItem('uid');S.uid=null;S.admin=false;S.view=null;S.cfg.token='';store.set('cfg',S.cfg);load().then(render)},
   prev(){S.m--;if(S.m<0){S.m=11;S.y--}render()},
   next(){S.m++;if(S.m>11){S.m=0;S.y++}render()},
   today(){const n=new Date();S.y=n.getFullYear();S.m=n.getMonth();render()},
@@ -414,7 +437,7 @@ document.addEventListener('keydown',e=>{
 
 /* ===== Inicio ===== */
 (async()=>{
-  if(S.cfg.token&&await checkAdmin())S.admin=true;
+  if(S.cfg.token&&sessionStorage.getItem('adm')==='1'&&await checkAdmin())S.admin=true;
   await load();
   if(S.uid&&!S.data.profiles.some(p=>p.id===S.uid)){S.uid=null;sessionStorage.removeItem('uid')}
   render();

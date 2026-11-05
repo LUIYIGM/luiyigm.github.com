@@ -326,8 +326,8 @@ function closeM(){$('#ov').classList.remove('on')}
 function dayModal(k){
   const l=mine().filter(t=>t.d===k),s=stats(l),[y,m,d]=k.split('-'),ed=canEdit();
   modal(`<h3>${+d} de ${MESES[+m-1]} ${y} <span class="${cls(s.net)}" style="float:right">${money(s.net)}</span></h3>
-  ${l.map(t=>`<div class="trade"><div><b>${esc(t.s||'—')}</b> <span class="mute">${t.side==='S'?'Short':'Long'}</span>${t.n?`<small>${esc(t.n)}</small>`:''}</div><div><b class="${cls(t.pnl)}">${money(t.pnl)}</b>${ed?` <button class="btn danger sm" data-a="delT" data-id="${t.id}" data-d="${k}">Borrar</button>`:''}</div></div>`).join('')||'<div class="empty">Sin operaciones este día.</div>'}
-  ${ed?`<label>Activo</label><input id="ts" placeholder="EURUSD, NQ, BTC…"><div class="row"><div><label>Dirección</label><select id="tside"><option value="L">Long</option><option value="S">Short</option></select></div><div><label>Resultado ($)</label><input id="tp" type="number" step="any" placeholder="-120 o 250"></div></div><label>Nota</label><input id="tn" placeholder="Setup, emoción, error…">
+  ${l.map(t=>`<div class="trade"><div><b>${esc(t.s||'—')}</b> <span class="mute">${t.side==='S'?'Sell':'Buy'}</span>${t.n?`<small>${esc(t.n)}</small>`:''}</div><div><b class="${cls(t.pnl)}">${money(t.pnl)}</b>${ed?` <button class="btn danger sm" data-a="delT" data-id="${t.id}" data-d="${k}">Borrar</button>`:''}</div></div>`).join('')||'<div class="empty">Sin operaciones este día.</div>'}
+  ${ed?`<label>Activo</label><input id="ts" placeholder="EURUSD, NQ, BTC…"><div class="row"><div><label>Dirección</label><select id="tside"><option value="L">Buy</option><option value="S">Sell</option></select></div><div><label>Resultado ($)</label><input id="tp" type="number" step="any" placeholder="-120 o 250"></div></div><label>Nota</label><input id="tn" placeholder="Setup, emoción, error…">
   <div style="display:flex;gap:8px;margin-top:14px"><button class="btn" data-a="addT" data-d="${k}">Agregar operación</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`
   :`<p style="margin-top:12px">Para agregar operaciones activa el guardado con el botón “Activar guardado”.</p><div style="margin-top:14px;display:flex;gap:8px"><button class="btn" data-a="utok">Activar guardado</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`}`);
 }
@@ -375,7 +375,7 @@ const A={
   },
   utOff(){S.ut='';store.set('ut','');closeM();render();toast('Guardado desconectado')},
   csv(){
-    const rows=[['fecha','activo','direccion','resultado','nota'],...mine().sort((a,b)=>a.d.localeCompare(b.d)).map(t=>[t.d,t.s,t.side==='S'?'Short':'Long',t.pnl,t.n])];
+    const rows=[['fecha','activo','direccion','resultado','nota'],...mine().sort((a,b)=>a.d.localeCompare(b.d)).map(t=>[t.d,t.s,t.side==='S'?'Sell':'Buy',t.pnl,t.n])];
     const csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\n');
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
     a.download='operaciones-'+(S.data.profiles.find(p=>p.id===S.view)?.name||'trader')+'.csv';a.click();URL.revokeObjectURL(a.href);

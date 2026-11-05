@@ -127,8 +127,15 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const pad=n=>String(n).padStart(2,'0');
 const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
-const S={cfg:store.get('cfg',{}),ut:store.get('ut',''),data:{profiles:[],trades:[]},files:{},sha:null,admin:false,uid:sessionStorage.getItem('uid'),view:null,y:new Date().getFullYear(),m:new Date().getMonth(),tab:'u',err:'',sync:''};
+const S={cfg:store.get('cfg',{}),ut:store.get('ut',''),data:{profiles:[],trades:[]},files:{},sha:null,admin:false,uid:store.get('uid','')||null,view:null,y:new Date().getFullYear(),m:new Date().getMonth(),tab:'u',err:'',sync:''};
 if(!S.cfg.owner&&location.hostname.endsWith('.github.io')){S.cfg.owner=location.hostname.split('.')[0];S.cfg.repo=location.pathname.split('/')[1]||location.hostname}
+/* Enlace de acceso del trader: #u=<perfil>&k=<token>&o=<owner>&r=<repo> → entra directo y queda recordado */
+{const h=new URLSearchParams(location.hash.slice(1));
+ if(h.get('u')&&h.get('k')){
+  S.uid=h.get('u');S.ut=h.get('k');store.set('uid',S.uid);store.set('ut',S.ut);
+  if(h.get('o')){S.cfg.owner=h.get('o');S.cfg.repo=h.get('r');store.set('cfg',S.cfg)}
+  history.replaceState(null,'',location.pathname+location.search);
+ }}
 const canEdit=()=>S.admin||(!!S.uid&&!!S.ut);
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)}
 
@@ -215,15 +222,7 @@ async function canPush(token,owner=S.cfg.owner,repo=S.cfg.repo){
   if(!token||!owner||!repo)return false;
   try{const r=await fetch(`https://api.github.com/repos/${owner}/${repo}`,{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'}});return r.ok&&!!(await r.json()).permissions?.push}catch{return false}
 }
-/* Admin = token con permiso de escritura + clave de administrador (la clave nunca se guarda, solo su hash).
-   Para generar el hash: abre la página, pestaña Administrador, escribe tu clave y pulsa "Generar código de clave". */
-const ADMIN_SALT='diario-trading-v1';
-const ADMIN_HASH='';
-async function pbk(pw){
-  const k=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
-  const b=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(ADMIN_SALT),iterations:300000,hash:'SHA-256'},k,256);
-  return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
-}
+/* Admin = token de GitHub con permiso de escritura en el repo. Se pide una sola vez y el dispositivo lo recuerda. */
 const checkAdmin=()=>canPush(S.cfg.token);
 
 /* ===== Cálculos ===== */
@@ -253,9 +252,12 @@ function loginView(){
   return`<div class="login"><div class="lcard"><h1>Diario de Trading</h1><p class="mute">Tu calendario de operaciones, guardado en GitHub.</p>
   <div class="tabs"><button class="${t==='u'?'on':''}" data-a="tab" data-t="u">Soy trader</button><button class="${t==='a'?'on':''}" data-a="tab" data-t="a">Administrador</button></div>
   ${t==='u'?`<label>Perfil</label><select id="lp">${S.data.profiles.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')||'<option value="">Sin perfiles</option>'}</select>
-  <label>PIN</label><input id="lpin" type="password" inputmode="numeric" autocomplete="current-password"><div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginU">Entrar</button>`
-  :`<label>Usuario o organización de GitHub</label><input id="lo" value="${esc(c.owner||'')}"><label>Repositorio</label><input id="lr" value="${esc(c.repo||'')}">
-  <label>Token de GitHub (permiso Contents: lectura y escritura)</label><input id="lt" type="password" autocomplete="off"><label>Clave de administrador</label><input id="la" type="password" autocomplete="off">${ADMIN_HASH?'':'<p class="mute" style="font-size:12px;margin-top:8px">Aún no hay clave configurada: escribe una (mínimo 8 caracteres) y genera el código para pegarlo en el archivo.</p>'}<div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="${ADMIN_HASH?'loginA':'genHash'}">${ADMIN_HASH?'Entrar como administrador':'Generar código de clave'}</button><div id="gh"></div>`}
+  <label>PIN</label><input id="lpin" type="password" inputmode="numeric" autocomplete="current-password"><div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginU">Entrar</button>
+  <p class="mute" style="font-size:12px;margin-top:12px">¿Tienes un enlace de acceso del administrador? Ábrelo y entrarás directo, sin PIN.</p>`
+  :`${c.owner&&c.repo?'':`<label>Usuario de GitHub</label><input id="lo" value="${esc(c.owner||'')}"><label>Repositorio</label><input id="lr" value="${esc(c.repo||'')}">`}
+  <label>Token de administrador de GitHub</label><input id="lt" type="password" autocomplete="off">
+  <p class="mute" style="font-size:12px;margin-top:8px">Solo la primera vez: este dispositivo lo recordará.</p>
+  <div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginA">Entrar como administrador</button>`}
   </div></div>`;
 }
 function sidebar(){
@@ -263,6 +265,7 @@ function sidebar(){
   return`<aside><div class="brand">Diario<i>.</i>Trading</div>
   ${S.data.profiles.map(p=>{const s=stats(S.data.trades.filter(t=>t.p===p.id&&t.d.startsWith(ms)));return`<button class="prof ${p.id===S.view?'on':''}" data-a="pick" data-id="${p.id}"><span><b>${esc(p.name)}</b><small>WR ${pct(s.wr)} · ${s.n} ops</small></span><span class="${cls(s.net)}">${money(s.net)}</span></button>`}).join('')}
   <button class="btn ghost" data-a="newProf" style="margin:8px 0 0">+ Nuevo perfil</button>
+  ${S.view?`<button class="btn ghost" data-a="link" data-id="${S.view}">🔗 Copiar enlace del trader</button>`:''}
   <button class="btn ghost" data-a="logout" style="margin-top:auto">Cerrar sesión</button></aside>`;
 }
 function bars(items){
@@ -345,20 +348,20 @@ function dayModal(k){
   ${l.map(t=>`<div class="trade"><div><b>${esc(t.s||'—')}</b> <span class="mute">${t.side==='S'?'Sell':'Buy'}</span>${t.n?`<small>${esc(t.n)}</small>`:''}</div><div><b class="${cls(t.pnl)}">${money(t.pnl)}</b>${ed?` <button class="btn danger sm" data-a="delT" data-id="${t.id}" data-d="${k}">Borrar</button>`:''}</div></div>`).join('')||'<div class="empty">Sin operaciones este día.</div>'}
   ${ed?`<label>Activo</label><input id="ts" placeholder="EURUSD, NQ, BTC…"><div class="row"><div><label>Dirección</label><select id="tside"><option value="L">Buy</option><option value="S">Sell</option></select></div><div><label>Resultado ($)</label><input id="tp" type="number" step="any" placeholder="-120 o 250"></div></div><label>Nota</label><input id="tn" placeholder="Setup, emoción, error…">
   <div style="display:flex;gap:8px;margin-top:14px"><button class="btn" data-a="addT" data-d="${k}">Agregar operación</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`
-  :`<p style="margin-top:12px">Para agregar operaciones activa el guardado con el botón “Activar guardado”.</p><div style="margin-top:14px;display:flex;gap:8px"><button class="btn" data-a="utok">Activar guardado</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`}`);
+  :`<p style="margin-top:12px">Para agregar operaciones, pide al administrador tu enlace de acceso o activa el guardado con el botón “Activar guardado”.</p><div style="margin-top:14px;display:flex;gap:8px"><button class="btn" data-a="utok">Activar guardado</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`}`);
 }
 function utokModal(){
   modal(`<h3>Guardado de tus operaciones</h3>
   ${S.ut?`<p>El guardado está activo en este dispositivo. Tus operaciones se envían a GitHub automáticamente.</p>
   <div style="display:flex;gap:8px;margin-top:16px"><button class="btn danger" data-a="utOff">Desconectar</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`
-  :`<p>Pega el token de GitHub que te dio el administrador (permiso Contents: lectura y escritura). Se guarda solo en este dispositivo y solo escribirá en tu propio archivo de operaciones.</p>
+  :`<p>Lo más fácil: abre el enlace de acceso que te dio el administrador. Si prefieres, pega aquí el token de GitHub (permiso Contents: lectura y escritura). Se guarda solo en este dispositivo y solo escribirá en tu propio archivo de operaciones.</p>
   <label>Token de GitHub</label><input id="ut" type="password" autocomplete="off"><div class="err" id="ue"></div>
   <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-a="utOn">Activar</button><button class="btn ghost" data-a="closeM">Cancelar</button></div>`}`);
 }
 function profModal(){
   modal(`<h3>Nuevo perfil</h3><label>Nombre del trader</label><input id="pn"><label>PIN de acceso (mínimo 4 dígitos)</label><input id="pp" type="password" inputmode="numeric"><div class="err" id="pe"></div>
   <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-a="saveProf">Crear perfil</button><button class="btn ghost" data-a="closeM">Cancelar</button></div>
-  ${S.data.profiles.length?`<h3 style="margin-top:22px">Gestionar</h3>${S.data.profiles.map(p=>`<div class="trade"><b>${esc(p.name)}</b><span><button class="btn ghost sm" data-a="chpin" data-id="${p.id}">Cambiar PIN</button> <button class="btn danger sm" data-a="delProf" data-id="${p.id}">Eliminar</button></span></div>`).join('')}`:''}`);
+  ${S.data.profiles.length?`<h3 style="margin-top:22px">Gestionar</h3>${S.data.profiles.map(p=>`<div class="trade"><b>${esc(p.name)}</b><span><button class="btn ghost sm" data-a="link" data-id="${p.id}">Enlace</button> <button class="btn ghost sm" data-a="chpin" data-id="${p.id}">Cambiar PIN</button> <button class="btn danger sm" data-a="delProf" data-id="${p.id}">Eliminar</button></span></div>`).join('')}`:''}`);
 }
 
 /* ===== Acciones ===== */
@@ -367,23 +370,24 @@ const A={
   async loginU(){
     const id=$('#lp').value,p=S.data.profiles.find(x=>x.id===id);
     if(!p||await hash(id,$('#lpin').value)!==p.h){S.err='Perfil o PIN incorrecto.';return render()}
-    S.uid=id;sessionStorage.setItem('uid',id);S.err='';await loadTrades([id]).catch(()=>{});render();
+    S.uid=id;store.set('uid',id);S.err='';await loadTrades([id]).catch(()=>{});render();
   },
   async loginA(){
-    const pw=$('#la').value;
-    S.cfg={owner:$('#lo').value.trim(),repo:$('#lr').value.trim(),token:$('#lt').value.trim()};
-    if(!ADMIN_HASH||(await pbk(pw))!==ADMIN_HASH||!(await checkAdmin())){S.err='Acceso denegado: revisa el token y la clave de administrador.';S.cfg.token='';return render()}
-    store.set('cfg',S.cfg);S.admin=true;sessionStorage.setItem('adm','1');
+    S.cfg={...S.cfg,owner:($('#lo')?.value||S.cfg.owner||'').trim(),repo:($('#lr')?.value||S.cfg.repo||'').trim(),token:$('#lt').value.trim()};
+    if(!(await checkAdmin())){S.err='Token inválido o sin permiso de escritura en este repositorio.';S.cfg.token='';return render()}
+    store.set('cfg',S.cfg);S.admin=true;
     try{await ensureBranch()}catch(e){S.admin=false;S.cfg.token='';S.err='No se pudo preparar la base de datos: '+e.message;return render()}
     S.err='';await load();render();
   },
-  async genHash(){
-    const p=$('#la').value;
-    if(p.length<8){$('#gh').innerHTML='<div class="err">Usa al menos 8 caracteres.</div>';return}
-    const h=await pbk(p);
-    $('#gh').innerHTML=`<p style="margin-top:12px;font-size:12.5px;color:var(--mute)">Copia esta línea y reemplaza la línea <b>const ADMIN_HASH='';</b> en el archivo index.html:</p><input readonly onclick="this.select()" value="const ADMIN_HASH='${h}';">`;
+  /* Enlace personal para el trader: entra directo, con guardado activo y sesión recordada */
+  async link(d){
+    let k=S.cfg.utk||prompt('Pega el token para traders (Contents: lectura y escritura). Solo se pide una vez:');
+    if(!k)return;k=k.trim();
+    if(!S.cfg.utk){if(!(await canPush(k))){toast('Token inválido o sin permiso de escritura');return}S.cfg.utk=k;store.set('cfg',S.cfg)}
+    const u=`${location.origin}${location.pathname}#u=${d.id||S.view}&k=${encodeURIComponent(k)}&o=${encodeURIComponent(S.cfg.owner)}&r=${encodeURIComponent(S.cfg.repo)}`;
+    try{await navigator.clipboard.writeText(u);toast('Enlace copiado: envíaselo al trader')}catch{prompt('Copia el enlace:',u)}
   },
-  logout(){sessionStorage.removeItem('adm');sessionStorage.removeItem('uid');S.uid=null;S.admin=false;S.view=null;S.cfg.token='';store.set('cfg',S.cfg);load().then(render)},
+  logout(){S.uid=null;S.admin=false;S.view=null;S.ut='';S.cfg.token='';S.cfg.utk='';store.set('cfg',S.cfg);store.set('ut','');store.set('uid','');load().then(render)},
   prev(){S.m--;if(S.m<0){S.m=11;S.y--}render()},
   next(){S.m++;if(S.m>11){S.m=0;S.y++}render()},
   today(){const n=new Date();S.y=n.getFullYear();S.m=n.getMonth();render()},
@@ -431,15 +435,18 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape')closeM();
   if(e.key==='Enter'&&e.target.id==='lpin')A.loginU();
+  if(e.key==='Enter'&&e.target.id==='lt')A.loginA();
   if(e.key==='Enter'&&e.target.id==='ut')A.utOn();
   if(e.key==='Enter'&&e.target.id==='tp')document.querySelector('[data-a=addT]')?.click();
 });
 
 /* ===== Inicio ===== */
 (async()=>{
-  if(S.cfg.token&&sessionStorage.getItem('adm')==='1'&&await checkAdmin())S.admin=true;
+  if(S.cfg.token&&await checkAdmin())S.admin=true;
+  else if(S.cfg.token){S.cfg.token='';store.set('cfg',S.cfg)}
+  if(S.admin){try{await ensureBranch()}catch{}}
   await load();
-  if(S.uid&&!S.data.profiles.some(p=>p.id===S.uid)){S.uid=null;sessionStorage.removeItem('uid')}
+  if(S.uid&&!S.admin&&!S.loadErr&&!S.data.profiles.some(p=>p.id===S.uid)){S.uid=null;store.set('uid','')}
   render();
 })();
 </script>

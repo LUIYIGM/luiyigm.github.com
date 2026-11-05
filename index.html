@@ -1,48 +1,323 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diario de Trading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1016;--panel:#131a22;--panel2:#18212b;--line:#222c38;--text:#e7ecf2;--mute:#8593a3;--gain:#34d399;--loss:#fb6b7b;--gold:#e5b567}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--text);font:14px/1.45 Manrope,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.mute{color:var(--mute)}.gain{color:var(--gain)}.loss{color:var(--loss)}
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.shell.solo{grid-template-columns:1fr}
+aside{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px}
+.brand{font-weight:800;font-size:17px;padding:0 8px 14px;letter-spacing:-.01em}
+.brand i{color:var(--gold);font-style:normal}
+.prof{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:10px;padding:10px;}
+.prof:hover{background:var(--panel2)}
+.prof.on{background:var(--panel2);border-color:var(--line)}
+.prof b{display:block;font-weight:600}
+.prof small{color:var(--mute)}
+.btn{background:var(--gold);color:#1b1405;border:0;border-radius:9px;padding:9px 14px;font-weight:700}
+.btn.ghost{background:none;color:var(--text);border:1px solid var(--line)}
+.btn.sm{padding:5px 9px;font-size:12px}
+.btn.danger{background:none;color:var(--loss);border:1px solid var(--line)}
+main{padding:24px clamp(14px,3vw,34px);max-width:1180px;width:100%}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+h2{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.nav{display:flex;align-items:center;gap:8px}
+.nav b{min-width:150px;text-align:center;font-size:16px;text-transform:capitalize}
+.sync{font-size:12px;color:var(--mute)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card .k{color:var(--mute);font-size:12.5px;margin-bottom:4px}
+.card .v{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.card .s{font-size:12px;color:var(--mute);margin-top:2px}
+.wr{display:flex;align-items:center;gap:12px}
+.cal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(74px,1fr)) minmax(96px,1.1fr);gap:6px;min-width:640px}
+.dow{color:var(--mute);font-size:12.5px;padding:4px 8px;font-weight:600}
+.day{min-height:92px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);padding:7px 8px;text-align:left;display:flex;flex-direction:column;gap:2px;position:relative}
+.day.out{opacity:.28;pointer-events:none}
+.day.today{box-shadow:inset 0 0 0 2px var(--gold)}
+.day:hover{border-color:var(--mute)}
+.day .n{font-size:12px;color:var(--mute);font-weight:600}
+.day .p{font-size:16px;font-weight:800;margin-top:auto}
+.day .m{font-size:11.5px;color:var(--mute)}
+.week{border-radius:10px;border:1px dashed var(--line);padding:7px 8px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.week .p{font-weight:800;font-size:15px}
+.week .m,.week .n{font-size:11.5px;color:var(--mute)}
+.eq{margin-top:16px}
+.eq svg{width:100%;height:110px;display:block}
+.overlay{position:fixed;inset:0;background:rgba(5,8,12,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+.overlay.on{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;width:min(480px,100%);max-height:90vh;overflow:auto}
+.modal h3{font-size:18px;margin-bottom:12px}
+label{display:block;font-size:12.5px;color:var(--mute);margin:10px 0 4px}
+input,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trade{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}
+.trade small{color:var(--mute);display:block}
+.login{min-height:100vh;display:grid;place-items:center;padding:16px}
+.lcard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px;width:min(420px,100%)}
+.lcard h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px;background:var(--bg);border-radius:10px;padding:4px}
+.tabs button{flex:1;border:0;background:none;padding:8px;border-radius:7px;color:var(--mute);font-weight:600}
+.tabs button.on{background:var(--panel2);color:var(--text)}
+.err{color:var(--loss);font-size:13px;margin-top:10px;min-height:18px}
+.empty{padding:40px 10px;text-align:center;color:var(--mute)}
+@media(max-width:820px){.shell{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line);flex-direction:row;overflow-x:auto;align-items:center}.brand{padding:0 8px}.prof{min-width:150px}}
+@media(prefers-reduced-motion:no-preference){.overlay.on .modal{animation:pop .15s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}}}
+</style>
 </head>
 <body>
-    <form class="form">
-        <h2 class="form__title">Inicia Sesion</h2>
-        <p class="form__paragraph">¿Aun no tienes una cuenta?</p>
-        <a href="https://youtu.be/32LZVJocjG8" class="form__link">Entra aqui</a>
+<div id="app"></div>
+<div class="overlay" id="ov"><div class="modal" id="md"></div></div>
 
-        <div class="form__container">
-            <div class="form__group">
-                <input type="text" id="name" class="form__input" placeholder=" ">
-                <label for="name" class="form__label">Nombre:</label>
-                <span class="form__line"></span>
-            </div>
+<script>
+/* ===== Estado ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+const S={cfg:store.get('cfg',{}),data:{profiles:[],trades:[]},sha:null,admin:false,uid:sessionStorage.getItem('uid'),view:null,y:new Date().getFullYear(),m:new Date().getMonth(),tab:'u',err:'',sync:''};
+if(!S.cfg.owner&&location.hostname.endsWith('.github.io')){S.cfg.owner=location.hostname.split('.')[0];S.cfg.repo=location.pathname.split('/')[1]||location.hostname}
 
-            <div class="form__group">
-                <input type="text" id="user" class="form__input" placeholder=" ">
-                <label for="usuario" class="form__label">Usuario:</label>
-                <span class="form__line"></span>
-            </div>
+/* ===== GitHub como base de datos =====
+   Rama "data" del repo: db/profiles.json + db/trades-<perfil>.json (un archivo por perfil, un commit por cambio) */
+const BR='data';
+const R=()=>`https://api.github.com/repos/${S.cfg.owner}/${S.cfg.repo}`;
+const hdr=()=>S.cfg.token?{Authorization:'Bearer '+S.cfg.token,Accept:'application/vnd.github+json'}:{Accept:'application/vnd.github+json'};
+const b64=s=>btoa(unescape(encodeURIComponent(s)));
+const unb64=s=>decodeURIComponent(escape(atob(s)));
+const errMsg=async r=>r.status+' '+((await r.json().catch(()=>({}))).message||'')+(r.status===403||r.status===404?' (revisa que el token tenga Contents: Read and write en este repo)':'');
+async function gget(path){
+  const r=await fetch(`${R()}/contents/${path}?ref=${BR}&t=${Date.now()}`,{headers:hdr()});
+  if(r.status===404)return null;
+  if(!r.ok)throw new Error(r.status);
+  const j=await r.json();return{sha:j.sha,json:JSON.parse(unb64(j.content))};
+}
+async function ensureBranch(){
+  let r=await fetch(`${R()}/branches/${BR}`,{headers:hdr()});if(r.ok)return;
+  const rep=await(await fetch(R(),{headers:hdr()})).json();
+  const ref=await fetch(`${R()}/git/ref/heads/${rep.default_branch}`,{headers:hdr()});
+  if(!ref.ok)throw new Error(await errMsg(ref));
+  const c=await fetch(`${R()}/git/refs`,{method:'POST',headers:hdr(),body:JSON.stringify({ref:'refs/heads/'+BR,sha:(await ref.json()).object.sha})});
+  if(!c.ok)throw new Error(await errMsg(c));
+}
+async function loadTrades(ids){
+  const rs=await Promise.all(ids.map(id=>gget(`db/trades-${id}.json`).then(g=>({id,g}))));
+  S.data.trades=S.data.trades.filter(t=>!ids.includes(t.p));
+  rs.forEach(({id,g})=>{if(g){S.files[`db/trades-${id}.json`]={sha:g.sha,snap:JSON.stringify(g.json)};S.data.trades.push(...g.json)}});
+}
+async function load(){
+  S.data={profiles:[],trades:[]};S.files={};S.loadErr='';
+  try{
+    const p=await gget('db/profiles.json');
+    if(p){S.files['db/profiles.json']={sha:p.sha,snap:JSON.stringify(p.json)};S.data.profiles=p.json}
+    await loadTrades(S.admin?S.data.profiles.map(x=>x.id):(S.uid?[S.uid]:[]));
+  }catch(e){S.loadErr='No se pudieron leer los datos (error '+e.message+').'}
+}
+let timer,busy=false,again=false;
+function save(){
+  if(!S.admin)return;
+  S.sync='Guardando en GitHub…';paintSync();clearTimeout(timer);timer=setTimeout(doSave,700);
+}
+async function put(path,obj,f,retry=true){
+  const body={message:'db: '+path,branch:BR,content:b64(JSON.stringify(obj,null,1))};
+  if(f)body.sha=f.sha;
+  const r=await fetch(`${R()}/contents/${path}`,{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
+  if((r.status===409||r.status===422)&&retry){const g=await gget(path);if(g)S.files[path]={sha:g.sha,snap:''};else delete S.files[path];return put(path,obj,S.files[path],false)}
+  if(!r.ok)throw new Error(await errMsg(r));
+  S.files[path]={sha:(await r.json()).content.sha,snap:JSON.stringify(obj)};
+}
+async function doSave(){
+  if(busy){again=true;return}busy=true;
+  try{
+    if(S.loadErr)throw new Error('los datos no se cargaron bien; recarga la página antes de editar');
+    const want={'db/profiles.json':S.data.profiles};
+    S.data.profiles.forEach(p=>want['db/trades-'+p.id+'.json']=S.data.trades.filter(t=>t.p===p.id));
+    for(const[path,obj]of Object.entries(want)){
+      if(S.files[path]?.snap===JSON.stringify(obj))continue;
+      await put(path,obj,S.files[path]);
+    }
+    for(const path of Object.keys(S.files))if(!(path in want)){
+      const r=await fetch(`${R()}/contents/${path}`,{method:'DELETE',headers:hdr(),body:JSON.stringify({message:'db: borrar '+path,sha:S.files[path].sha,branch:BR})});
+      if(!r.ok&&r.status!==404)throw new Error(await errMsg(r));
+      delete S.files[path];
+    }
+    S.sync='Guardado en GitHub ✓';
+  }catch(e){S.sync='⚠ No se guardó: '+e.message}
+  busy=false;paintSync();
+  if(again){again=false;doSave()}
+}
+const paintSync=()=>{const e=$('#sync');if(e){e.textContent=S.sync;e.style.color=S.sync.startsWith('⚠')?'var(--loss)':''}};
 
-            <div class="form__group">
-                <input type="password" id="password" class="form__input" placeholder=" ">
-                <label for="password" class="form__label">Contraseña:</label>
-                <span class="form__line"></span>
-            </div>
+/* ===== Auth ===== */
+async function hash(id,pin){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(id+':'+pin));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function checkAdmin(){
+  if(!S.cfg.token||!S.cfg.owner)return false;
+  try{const r=await fetch(`https://api.github.com/repos/${S.cfg.owner}/${S.cfg.repo}`,{headers:hdr()});return r.ok&&!!(await r.json()).permissions?.push}catch{return false}
+}
 
-            <input type="submit" class="form__submit" value="Entrar">
-        </div>
-    </form>
+/* ===== Cálculos ===== */
+function stats(l){
+  const w=l.filter(t=>t.pnl>0),x=l.filter(t=>t.pnl<0),be=l.length-w.length-x.length;
+  const gw=w.reduce((a,t)=>a+t.pnl,0),gl=-x.reduce((a,t)=>a+t.pnl,0);
+  return{n:l.length,w:w.length,l:x.length,be,net:gw-gl,wr:w.length+x.length?w.length/(w.length+x.length)*100:null,pf:gl?gw/gl:(gw?Infinity:null),aw:w.length?gw/w.length:0,al:x.length?gl/x.length:0};
+}
+const money=(n,sign=true)=>{const a=Math.abs(n);const t=a>=10000?(a/1000).toFixed(1)+'K':a.toLocaleString('en-US',{maximumFractionDigits:2});return(n<0?'-':sign&&n>0?'+':'')+'$'+t};
+const cls=n=>n>0?'gain':n<0?'loss':'mute';
+const pct=n=>n==null?'—':n.toFixed(1)+'%';
+const dkey=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
+const mine=()=>S.data.trades.filter(t=>t.p===S.view);
+
+/* ===== Vistas ===== */
+function render(){
+  const app=$('#app');
+  if(!S.admin&&!S.uid){app.innerHTML=loginView();return}
+  if(S.admin&&!S.view)S.view=S.data.profiles[0]?.id||null;
+  if(!S.admin)S.view=S.uid;
+  const prof=S.data.profiles.find(p=>p.id===S.view);
+  app.innerHTML=`<div class="shell ${S.admin?'':'solo'}">${S.admin?sidebar():''}<main>${prof?dash(prof):`<div class="empty">${S.admin?'Aún no hay perfiles. Crea el primero con “Nuevo perfil”.':'Tu perfil ya no existe.'}</div>`}</main></div>`;
+  paintSync();
+}
+function loginView(){
+  const t=S.tab,c=S.cfg;
+  return`<div class="login"><div class="lcard"><h1>Diario de Trading</h1><p class="mute">Tu calendario de operaciones, guardado en GitHub.</p>
+  <div class="tabs"><button class="${t==='u'?'on':''}" data-a="tab" data-t="u">Soy trader</button><button class="${t==='a'?'on':''}" data-a="tab" data-t="a">Administrador</button></div>
+  ${t==='u'?`<label>Perfil</label><select id="lp">${S.data.profiles.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')||'<option value="">Sin perfiles</option>'}</select>
+  <label>PIN</label><input id="lpin" type="password" inputmode="numeric" autocomplete="current-password"><div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginU">Entrar</button>`
+  :`<label>Usuario o organización de GitHub</label><input id="lo" value="${esc(c.owner||'')}"><label>Repositorio</label><input id="lr" value="${esc(c.repo||'')}">
+  <label>Token de GitHub (permiso Contents: lectura y escritura)</label><input id="lt" type="password" autocomplete="off"><div class="err">${esc(S.err||S.loadErr||'')}</div><button class="btn" style="width:100%" data-a="loginA">Entrar como administrador</button>`}
+  </div></div>`;
+}
+function sidebar(){
+  const ms=`${S.y}-${pad(S.m+1)}`;
+  return`<aside><div class="brand">Diario<i>.</i>Trading</div>
+  ${S.data.profiles.map(p=>{const s=stats(S.data.trades.filter(t=>t.p===p.id&&t.d.startsWith(ms)));return`<button class="prof ${p.id===S.view?'on':''}" data-a="pick" data-id="${p.id}"><span><b>${esc(p.name)}</b><small>WR ${pct(s.wr)} · ${s.n} ops</small></span><span class="${cls(s.net)}">${money(s.net)}</span></button>`}).join('')}
+  <button class="btn ghost" data-a="newProf" style="margin:8px 0 0">+ Nuevo perfil</button>
+  <button class="btn ghost" data-a="logout" style="margin-top:auto">Cerrar sesión</button></aside>`;
+}
+function dash(prof){
+  const ms=`${S.y}-${pad(S.m+1)}`,all=mine(),mt=all.filter(t=>t.d.startsWith(ms)),st=stats(mt);
+  const byDay={};mt.forEach(t=>(byDay[t.d]??=[]).push(t));
+  const maxAbs=Math.max(1,...Object.values(byDay).map(l=>Math.abs(stats(l).net)));
+  const first=new Date(S.y,S.m,1),off=(first.getDay()+6)%7,dim=new Date(S.y,S.m+1,0).getDate(),rows=Math.ceil((off+dim)/7);
+  const td=new Date(),tk=dkey(td.getFullYear(),td.getMonth(),td.getDate());
+  let g=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom','Semana'].map(d=>`<div class="dow">${d}</div>`).join('');
+  for(let r=0;r<rows;r++){
+    let wk=[];
+    for(let c=0;c<7;c++){
+      const d=r*7+c-off+1;
+      if(d<1||d>dim){g+='<div class="day out"></div>';continue}
+      const k=dkey(S.y,S.m,d),l=byDay[k]||[],s=stats(l);wk.push(...l);
+      const bg=l.length?`background:${s.net>0?`rgba(52,211,153,${.1+.3*Math.abs(s.net)/maxAbs})`:s.net<0?`rgba(251,107,123,${.1+.3*Math.abs(s.net)/maxAbs})`:'rgba(133,147,163,.15)'}`:'';
+      g+=`<button class="day ${k===tk?'today':''}" style="${bg}" data-a="day" data-d="${k}" aria-label="Día ${d}"><span class="n">${d}</span>${l.length?`<span class="p ${cls(s.net)}">${money(s.net)}</span><span class="m">${s.n} ops · ${pct(s.wr)}</span>`:''}</button>`;
+    }
+    const w=stats(wk);
+    g+=`<div class="week"><span class="n">Semana ${r+1}</span>${w.n?`<span class="p ${cls(w.net)}">${money(w.net)}</span><span class="m">${w.n} ops · ${pct(w.wr)}</span>`:'<span class="m">—</span>'}</div>`;
+  }
+  const days=Object.entries(byDay).sort(),gd=days.filter(([,l])=>stats(l).net>0).length,rd=days.filter(([,l])=>stats(l).net<0).length;
+  const best=days.length?Math.max(...days.map(([,l])=>stats(l).net)):0;
+  const circ=2*Math.PI*30,dash=circ*(st.wr||0)/100;
+  return`<div class="top"><div><h2>${esc(prof.name)}</h2><span class="sync" id="sync"></span></div>
+  <div class="nav"><button class="btn ghost sm" data-a="prev" aria-label="Mes anterior">‹</button><b>${MESES[S.m]} ${S.y}</b><button class="btn ghost sm" data-a="next" aria-label="Mes siguiente">›</button><button class="btn ghost sm" data-a="today">Hoy</button>${S.admin?'':'<button class="btn ghost sm" data-a="logout">Salir</button>'}</div></div>
+  <div class="stats">
+   <div class="card"><div class="k">P&amp;L neto del mes</div><div class="v ${cls(st.net)}">${money(st.net)}</div><div class="s">Mejor día ${money(best)}</div></div>
+   <div class="card wr"><svg width="68" height="68" viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--gain)" stroke-width="8" stroke-linecap="round" stroke-dasharray="${dash} ${circ}" transform="rotate(-90 38 38)"/></svg><div><div class="k">Win rate</div><div class="v">${pct(st.wr)}</div><div class="s">${st.w}G · ${st.l}P · ${st.be}BE</div></div></div>
+   <div class="card"><div class="k">Profit factor</div><div class="v">${st.pf==null?'—':st.pf===Infinity?'∞':st.pf.toFixed(2)}</div><div class="s">${st.n} operaciones</div></div>
+   <div class="card"><div class="k">Promedio ganada / perdida</div><div class="v"><span class="gain">${money(st.aw,false)}</span> <span class="mute">/</span> <span class="loss">${money(st.al,false)}</span></div><div class="s">Días verdes ${gd} · rojos ${rd}</div></div>
+  </div>
+  <div class="cal"><div class="grid">${g}</div></div>
+  <div class="card eq"><div class="k">Curva de capital del mes</div>${curve(days)}</div>`;
+}
+function curve(days){
+  if(!days.length)return'<div class="empty">Sin operaciones este mes.</div>';
+  let c=0;const pts=[0,...days.map(([,l])=>c+=stats(l).net)],mx=Math.max(...pts),mn=Math.min(...pts),rg=(mx-mn)||1;
+  const xy=pts.map((v,i)=>`${(i/(pts.length-1||1))*300},${70-((v-mn)/rg)*60}`);
+  const up=pts[pts.length-1]>=0,col=up?'var(--gain)':'var(--loss)';
+  return`<svg viewBox="0 0 300 80" preserveAspectRatio="none"><polygon points="0,80 ${xy.join(' ')} 300,80" fill="${col}" opacity=".12"/><polyline points="${xy.join(' ')}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
+}
+
+/* ===== Modales ===== */
+function modal(h){$('#md').innerHTML=h;$('#ov').classList.add('on')}
+function closeM(){$('#ov').classList.remove('on')}
+function dayModal(k){
+  const l=mine().filter(t=>t.d===k),s=stats(l),[y,m,d]=k.split('-');
+  modal(`<h3>${+d} de ${MESES[+m-1]} ${y} <span class="${cls(s.net)}" style="float:right">${money(s.net)}</span></h3>
+  ${l.map(t=>`<div class="trade"><div><b>${esc(t.s||'—')}</b> <span class="mute">${t.side==='S'?'Short':'Long'}</span>${t.n?`<small>${esc(t.n)}</small>`:''}</div><div><b class="${cls(t.pnl)}">${money(t.pnl)}</b>${S.admin?` <button class="btn danger sm" data-a="delT" data-id="${t.id}" data-d="${k}">Borrar</button>`:''}</div></div>`).join('')||'<div class="empty">Sin operaciones este día.</div>'}
+  ${S.admin?`<label>Activo</label><input id="ts" placeholder="EURUSD, NQ, BTC…"><div class="row"><div><label>Dirección</label><select id="tside"><option value="L">Long</option><option value="S">Short</option></select></div><div><label>Resultado ($)</label><input id="tp" type="number" step="any" placeholder="-120 o 250"></div></div><label>Nota</label><input id="tn" placeholder="Setup, emoción, error…">
+  <div style="display:flex;gap:8px;margin-top:14px"><button class="btn" data-a="addT" data-d="${k}">Agregar operación</button><button class="btn ghost" data-a="closeM">Cerrar</button></div>`:`<div style="margin-top:14px"><button class="btn ghost" data-a="closeM">Cerrar</button></div>`}`);
+}
+function profModal(){
+  modal(`<h3>Nuevo perfil</h3><label>Nombre del trader</label><input id="pn"><label>PIN de acceso (mínimo 4 dígitos)</label><input id="pp" type="password" inputmode="numeric"><div class="err" id="pe"></div>
+  <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-a="saveProf">Crear perfil</button><button class="btn ghost" data-a="closeM">Cancelar</button></div>
+  ${S.data.profiles.length?`<h3 style="margin-top:22px">Gestionar</h3>${S.data.profiles.map(p=>`<div class="trade"><b>${esc(p.name)}</b><span><button class="btn ghost sm" data-a="chpin" data-id="${p.id}">Cambiar PIN</button> <button class="btn danger sm" data-a="delProf" data-id="${p.id}">Eliminar</button></span></div>`).join('')}`:''}`);
+}
+
+/* ===== Acciones ===== */
+const A={
+  tab:d=>{S.tab=d.t;S.err='';render()},
+  async loginU(){
+    const id=$('#lp').value,p=S.data.profiles.find(x=>x.id===id);
+    if(!p||await hash(id,$('#lpin').value)!==p.h){S.err='Perfil o PIN incorrecto.';return render()}
+    S.uid=id;sessionStorage.setItem('uid',id);S.err='';await loadTrades([id]).catch(()=>{});render();
+  },
+  async loginA(){
+    S.cfg={owner:$('#lo').value.trim(),repo:$('#lr').value.trim(),token:$('#lt').value.trim()};
+    if(!(await checkAdmin())){S.err='Token inválido o sin permiso de escritura en ese repositorio.';S.cfg.token='';return render()}
+    store.set('cfg',S.cfg);S.admin=true;
+    try{await ensureBranch()}catch(e){S.admin=false;S.cfg.token='';S.err='No se pudo preparar la base de datos: '+e.message;return render()}
+    S.err='';await load();render();
+  },
+  logout(){sessionStorage.removeItem('uid');S.uid=null;S.admin=false;S.view=null;S.cfg.token='';store.set('cfg',S.cfg);load().then(render)},
+  prev(){S.m--;if(S.m<0){S.m=11;S.y--}render()},
+  next(){S.m++;if(S.m>11){S.m=0;S.y++}render()},
+  today(){const n=new Date();S.y=n.getFullYear();S.m=n.getMonth();render()},
+  pick:d=>{S.view=d.id;render()},
+  day:d=>dayModal(d.d),
+  closeM,
+  newProf:profModal,
+  async saveProf(){
+    const n=$('#pn').value.trim(),p=$('#pp').value;
+    if(!n||p.length<4){$('#pe').textContent='Escribe un nombre y un PIN de al menos 4 dígitos.';return}
+    const id='p'+Date.now().toString(36);
+    S.data.profiles.push({id,name:n,h:await hash(id,p)});S.view=id;save();closeM();render();
+  },
+  async chpin(d){const p=prompt('Nuevo PIN (mínimo 4 dígitos):');if(!p||p.length<4)return;S.data.profiles.find(x=>x.id===d.id).h=await hash(d.id,p);save();alert('PIN actualizado.')},
+  delProf(d){
+    if(!confirm('¿Eliminar este perfil y todas sus operaciones?'))return;
+    S.data.profiles=S.data.profiles.filter(p=>p.id!==d.id);S.data.trades=S.data.trades.filter(t=>t.p!==d.id);
+    S.view=S.data.profiles[0]?.id||null;save();closeM();render();
+  },
+  addT(d){
+    const pnl=parseFloat($('#tp').value);if(isNaN(pnl))return $('#tp').focus();
+    S.data.trades.push({id:'t'+Date.now().toString(36),p:S.view,d:d.d,s:$('#ts').value.trim().toUpperCase(),side:$('#tside').value,pnl,n:$('#tn').value.trim()});
+    save();render();dayModal(d.d);
+  },
+  delT(d){S.data.trades=S.data.trades.filter(t=>t.id!==d.id);save();render();dayModal(d.d)}
+};
+document.addEventListener('click',e=>{
+  if(e.target.id==='ov')return closeM();
+  const a=e.target.closest('[data-a]');if(a)A[a.dataset.a]?.(a.dataset);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();if(e.key==='Enter'&&e.target.id==='lpin')A.loginU()});
+
+/* ===== Inicio ===== */
+(async()=>{
+  if(S.cfg.token&&await checkAdmin())S.admin=true;
+  await load();
+  if(S.uid&&!S.data.profiles.some(p=>p.id===S.uid)){S.uid=null;sessionStorage.removeItem('uid')}
+  render();
+})();
+</script>
 </body>
 </html>
-
-<a href="/LUIYIGM.github.com/Isabela/index.html">TICTACBOOM</a>
-<a href="/LUIYIGM.github.com/proyects/clocklgm/index.html">reloj</a>
-<a href="/luiyigm.github.com/An/Index.html">...</a>
-<a href="/luiyigm.github.com/App">App</a>
-<a href="/luiyigm.github.com/MyLittleGirl/index.html">asdd</a>
-<a href="/luiyigm.github.com/CalendarioTrading/index.html">Calendario</a>
